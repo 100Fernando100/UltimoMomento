@@ -38,7 +38,8 @@ export default function CountdownWidget() {
       </div>
       <p className="font-oswald text-xs leading-tight uppercase tracking-wide" style={{ color: '#bbb' }}>
         Tiempo restante para que ocurra algo.<br />
-        <span style={{ color: '#ff6600' }}>No sabemos el que.</span>
+        <span style={{ color: '#ff6600' }}>No sabemos el que.</span><br />
+        <span style={{ color: '#888' }}>Pero sino lo inventamos.</span>
       </p>
     </div>
   );

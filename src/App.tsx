@@ -1,19 +1,23 @@
+import CountryBar from './components/CountryBar';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import NewsGrid from './components/NewsGrid';
 import SidebarOfShame from './components/SidebarOfShame';
 import CountdownWidget from './components/CountdownWidget';
+import WeatherWidget from './components/WeatherWidget';
 import AlertBanner from './components/AlertBanner';
 import EditorialBanner from './components/EditorialBanner';
 import WorldCupColumn from './components/WorldCupColumn';
 import AskTheSpecialist from './components/AskTheSpecialist';
 import YouTubeColumn from './components/YouTubeColumn';
+import IdeologySection from './components/IdeologySection';
 import PopupModal from './components/PopupModal';
 import Footer from './components/Footer';
 
 function App() {
   return (
     <div className="min-h-screen noise-bg" style={{ background: '#0a0a0a' }}>
+      <CountryBar />
       <Header />
       <EditorialBanner />
       <HeroSection />
@@ -23,10 +27,12 @@ function App() {
         <div className="flex gap-8">
           <main className="flex-1 min-w-0">
             <NewsGrid />
+            <IdeologySection />
           </main>
 
           <div className="hidden lg:block flex-shrink-0" style={{ width: 300 }}>
             <CountdownWidget />
+            <WeatherWidget />
             <SidebarOfShame />
           </div>
         </div>
