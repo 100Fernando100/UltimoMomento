@@ -98,7 +98,7 @@ function ArticleRow({ article, rank }: { article: typeof leftArticles[0]; rank: 
 
 export default function IdeologySection() {
   return (
-    <section className="w-full mt-12">
+    <section id="seccion-opinion" className="w-full mt-12">
       <div className="flex items-center gap-3 mb-6 pb-3" style={{ borderBottom: '2px solid #333' }}>
         <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>
           LO MAS LEIDO EN LAS ULTIMAS 24 HS

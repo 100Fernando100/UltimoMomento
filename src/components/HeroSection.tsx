@@ -2,7 +2,7 @@ import { Eye, Clock, Share2 } from 'lucide-react';
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full scanline-overlay" style={{ minHeight: '520px' }}>
+    <section id="seccion-economia" className="relative w-full scanline-overlay" style={{ minHeight: '520px' }}>
       <img
         src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg?auto=compress&cs=tinysrgb&w=1600"
         alt="breaking news"

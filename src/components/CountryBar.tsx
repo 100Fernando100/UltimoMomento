@@ -18,15 +18,19 @@ const countries = [
 function getDomainLabel(domain: string) {
   if (domain === 'america') return 'rompenoticias.com/america';
   if (domain === 'world') return 'rompenoticias.com/mundo';
-  return `rompenoticias.com.${domain}`;
+  return `rompenoticias.com/${domain}`;
+}
+
+function getCountryUrl(domain: string) {
+  if (domain === 'world') return 'https://rompenoticias.com/mundo';
+  return `https://rompenoticias.com/${domain}`;
 }
 
 export default function CountryBar() {
   const [active, setActive] = useState('america');
   const [showAll, setShowAll] = useState(false);
 
-  const activeCountry = countries.find(c => c.domain === active);
-  const visibleCountries = showAll ? countries : countries.slice(0, 8);
+  const visibleCountries = showAll ? countries : countries.slice(0, 9);
 
   return (
     <div style={{ background: '#050505', borderBottom: '1px solid #1a1a1a' }}>
@@ -40,10 +44,11 @@ export default function CountryBar() {
           </div>
 
           {visibleCountries.map(country => (
-            <button
+            <a
               key={country.domain}
-              onClick={() => setActive(country.domain)}
-              className="flex items-center gap-1.5 px-3 py-2.5 flex-shrink-0 transition-all"
+              href={getCountryUrl(country.domain)}
+              onClick={(e) => { e.preventDefault(); setActive(country.domain); }}
+              className="flex items-center gap-1.5 px-3 py-2.5 flex-shrink-0 transition-all no-underline"
               style={{
                 borderBottom: active === country.domain ? '2px solid #cc0000' : '2px solid transparent',
                 color: active === country.domain ? '#ffffff' : '#888',
@@ -53,11 +58,13 @@ export default function CountryBar() {
                 fontWeight: active === country.domain ? 700 : 400,
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
+                textDecoration: 'none',
+                cursor: 'pointer',
               }}
             >
               <span style={{ fontSize: '0.85rem' }}>{country.flag}</span>
               {country.name}
-            </button>
+            </a>
           ))}
 
           {!showAll && (

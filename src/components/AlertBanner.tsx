@@ -7,7 +7,7 @@ const alerts = [
 
 export default function AlertBanner() {
   return (
-    <div className="flex flex-col gap-px my-6">
+    <div id="seccion-sexo" className="flex flex-col gap-px my-6">
       {alerts.map((alert, i) => (
         <div
           key={i}

@@ -37,11 +37,11 @@ function App() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
+        <div id="seccion-mundial" className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <WorldCupColumn />
-            <AskTheSpecialist />
-            <YouTubeColumn />
+            <div id="seccion-espectaculos"><WorldCupColumn /></div>
+            <div id="seccion-escandalo"><AskTheSpecialist /></div>
+            <div id="seccion-viral"><YouTubeColumn /></div>
           </div>
         </div>
       </div>

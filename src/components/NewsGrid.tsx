@@ -171,7 +171,7 @@ function SmallStoryCard({ story }: { story: typeof secondaryStories[0] }) {
 export default function NewsGrid() {
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      <div id="seccion-politica">
         <div className="flex items-center gap-3 mb-5 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
           <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>TRAGEDIAS DESTACADAS</span>
           <span className="breaking-badge blink text-xs">NUEVO</span>
@@ -189,7 +189,7 @@ export default function NewsGrid() {
         </div>
       </div>
 
-      <div>
+      <div id="seccion-catastrofes">
         <div
           className="flex items-center justify-between mb-4 pb-3"
           style={{ borderBottom: '2px solid #e65c00' }}
