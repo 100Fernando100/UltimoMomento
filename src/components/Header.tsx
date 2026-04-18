@@ -1,5 +1,6 @@
 import { AlertTriangle, Zap, Radio, DollarSign, Flame } from 'lucide-react';
 import NewsTicker from './NewsTicker';
+import SocialIcons from './SocialIcons';
 
 const navItems = [
   { label: 'POLITICA', anchor: '#seccion-politica' },
@@ -34,6 +35,7 @@ export default function Header() {
           </div>
 
           <div className="hidden md:flex items-center gap-6">
+            <SocialIcons size="sm" />
             <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#aaa' }}>
               <Radio size={12} style={{ color: '#cc0000' }} className="blink" />
               <span>En vivo: 4.2M en panico</span>

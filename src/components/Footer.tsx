@@ -1,3 +1,5 @@
+import SocialIcons from './SocialIcons';
+
 export default function Footer() {
   return (
     <footer className="mt-16 py-10" style={{ background: '#1a1a1a', borderTop: '3px solid #cc0000' }}>
@@ -7,10 +9,14 @@ export default function Footer() {
             <div className="font-anton text-xl mb-1" style={{ color: '#fff' }}>
               ROMPE<span style={{ color: '#cc0000' }}>NOTICIAS</span>
             </div>
-            <p className="font-oswald text-xs leading-relaxed mt-2" style={{ color: '#999' }}>
+            <p className="font-oswald text-xs leading-relaxed mt-2 mb-4" style={{ color: '#999' }}>
               Desde 2024 exagerando la realidad para que sea mas digerible.
               Todo contenido es satirico. La realidad ya es suficientemente absurda.
             </p>
+            <div className="flex flex-col gap-2">
+              <span className="font-oswald text-xs uppercase tracking-widest" style={{ color: '#555', fontSize: '0.6rem' }}>SEGUINOS</span>
+              <SocialIcons size="md" />
+            </div>
           </div>
           {[
             { title: 'SECCIONES', items: ['Politica', 'Economia', 'Escandalo', 'Espectaculos', 'Catastrofes'] },
