@@ -5,6 +5,8 @@ import SidebarOfShame from './components/SidebarOfShame';
 import CountdownWidget from './components/CountdownWidget';
 import AlertBanner from './components/AlertBanner';
 import EditorialBanner from './components/EditorialBanner';
+import WorldCupColumn from './components/WorldCupColumn';
+import AskTheSpecialist from './components/AskTheSpecialist';
 import PopupModal from './components/PopupModal';
 import Footer from './components/Footer';
 
@@ -25,6 +27,13 @@ function App() {
           <div className="hidden lg:block flex-shrink-0" style={{ width: 300 }}>
             <CountdownWidget />
             <SidebarOfShame />
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <WorldCupColumn />
+            <AskTheSpecialist />
           </div>
         </div>
       </div>
