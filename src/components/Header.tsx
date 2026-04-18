@@ -1,7 +1,7 @@
 import { AlertTriangle, Zap, Radio } from 'lucide-react';
 import NewsTicker from './NewsTicker';
 
-const navItems = ['POLITICA', 'ECONOMIA', 'ESCANDALO', 'ESPECTACULOS', 'VIRAL', 'CATASTROFES', 'OPINION'];
+const navItems = ['POLITICA', 'ECONOMIA', 'ESCANDALO', 'ESPECTACULOS', 'MUNDIAL 2026', 'CORAZON & ALGO MAS', 'VIRAL', 'CATASTROFES', 'OPINION'];
 
 export default function Header() {
   return (
@@ -44,16 +44,29 @@ export default function Header() {
 
       <nav className="border-b border-gray-900" style={{ background: '#111' }}>
         <div className="max-w-screen-2xl mx-auto px-4 flex items-center gap-1 overflow-x-auto">
-          {navItems.map((item, i) => (
-            <button
-              key={item}
-              className="font-oswald text-xs font-600 uppercase tracking-wider px-4 py-3 whitespace-nowrap transition-colors hover:bg-red-900/30 hover:text-red-400"
-              style={{ color: i === 2 ? '#ff6600' : '#aaa' }}
-            >
-              {i === 2 && <span className="mr-1" style={{ color: '#ff6600' }}>*</span>}
-              {item}
-            </button>
-          ))}
+          {navItems.map((item, i) => {
+            const isMundial = item === 'MUNDIAL 2026';
+            const isCorazon = item === 'CORAZON & ALGO MAS';
+            const isEscandalo = i === 2;
+            return (
+              <button
+                key={item}
+                className="font-oswald text-xs font-600 uppercase tracking-wider px-4 py-3 whitespace-nowrap transition-colors hover:bg-red-900/30 hover:text-red-400 relative"
+                style={{ color: isEscandalo ? '#ff6600' : isMundial ? '#f0c040' : isCorazon ? '#ff6699' : '#aaa' }}
+              >
+                {isEscandalo && <span className="mr-1" style={{ color: '#ff6600' }}>*</span>}
+                {isMundial && <span className="mr-1">⚽</span>}
+                {isCorazon && <span className="mr-1">❤</span>}
+                {item}
+                {(isMundial || isCorazon) && (
+                  <span
+                    className="absolute top-1.5 right-1 blink"
+                    style={{ width: 5, height: 5, borderRadius: '50%', background: isMundial ? '#f0c040' : '#ff6699', display: 'inline-block' }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       </nav>
 
