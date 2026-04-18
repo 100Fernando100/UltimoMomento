@@ -7,6 +7,7 @@ import AlertBanner from './components/AlertBanner';
 import EditorialBanner from './components/EditorialBanner';
 import WorldCupColumn from './components/WorldCupColumn';
 import AskTheSpecialist from './components/AskTheSpecialist';
+import YouTubeColumn from './components/YouTubeColumn';
 import PopupModal from './components/PopupModal';
 import Footer from './components/Footer';
 
@@ -31,9 +32,10 @@ function App() {
         </div>
 
         <div className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <WorldCupColumn />
             <AskTheSpecialist />
+            <YouTubeColumn />
           </div>
         </div>
       </div>

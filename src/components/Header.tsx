@@ -54,10 +54,10 @@ export default function Header() {
               <button
                 key={item}
                 className="font-oswald text-xs font-600 uppercase tracking-wider px-4 py-3 whitespace-nowrap transition-colors hover:bg-red-900/30 hover:text-red-400 relative flex items-center gap-1"
-                style={{ color: isEscandalo ? '#ff6600' : isMundial ? '#f0c040' : isSexo ? '#ff6699' : '#aaa' }}
+                style={{ color: isEscandalo ? '#ff6600' : isMundial ? '#f0c040' : isSexo ? '#ff6699' : isPolitica ? '#4ade80' : '#aaa' }}
               >
                 {isEscandalo && <span style={{ color: '#ff6600' }}>*</span>}
-                {isPolitica && <DollarSign size={11} style={{ color: '#aaa', flexShrink: 0 }} />}
+                {isPolitica && <DollarSign size={11} style={{ color: '#4ade80', flexShrink: 0 }} />}
                 {isEconomia && <Flame size={11} style={{ color: '#aaa', flexShrink: 0 }} />}
                 {isMundial && <span>⚽</span>}
                 {isSexo && <span>🔥</span>}
