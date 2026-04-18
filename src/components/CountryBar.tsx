@@ -2,6 +2,7 @@ import { Globe, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 const countries = [
+  { name: 'América', domain: 'america', flag: '🌎' },
   { name: 'Argentina', domain: 'ar', flag: '🇦🇷' },
   { name: 'Colombia', domain: 'co', flag: '🇨🇴' },
   { name: 'España', domain: 'es', flag: '🇪🇸' },
@@ -14,8 +15,14 @@ const countries = [
   { name: 'Mundo', domain: 'world', flag: '🌐' },
 ];
 
+function getDomainLabel(domain: string) {
+  if (domain === 'america') return 'rompenoticias.com/america';
+  if (domain === 'world') return 'rompenoticias.com/mundo';
+  return `rompenoticias.com.${domain}`;
+}
+
 export default function CountryBar() {
-  const [active, setActive] = useState('ar');
+  const [active, setActive] = useState('america');
   const [showAll, setShowAll] = useState(false);
 
   const activeCountry = countries.find(c => c.domain === active);
@@ -69,7 +76,7 @@ export default function CountryBar() {
               Edicion activa:
             </span>
             <span className="font-oswald font-700 text-xs" style={{ color: '#cc0000', fontSize: '0.65rem', letterSpacing: '0.05em' }}>
-              rompenoticias.com.{active === 'world' ? 'com' : active}
+              {getDomainLabel(active)}
             </span>
           </div>
         </div>
