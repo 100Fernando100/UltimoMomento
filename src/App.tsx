@@ -4,6 +4,7 @@ import NewsGrid from './components/NewsGrid';
 import SidebarOfShame from './components/SidebarOfShame';
 import CountdownWidget from './components/CountdownWidget';
 import AlertBanner from './components/AlertBanner';
+import EditorialBanner from './components/EditorialBanner';
 import PopupModal from './components/PopupModal';
 import Footer from './components/Footer';
 
@@ -11,6 +12,7 @@ function App() {
   return (
     <div className="min-h-screen noise-bg" style={{ background: '#0a0a0a' }}>
       <Header />
+      <EditorialBanner />
       <HeroSection />
       <AlertBanner />
 
