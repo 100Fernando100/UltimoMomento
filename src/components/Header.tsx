@@ -5,30 +5,30 @@ const navItems = ['POLITICA', 'ECONOMIA', 'ESCANDALO', 'ESPECTACULOS', 'MUNDIAL 
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-black">
-      <div className="border-b border-red-900" style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%)' }}>
+    <header className="sticky top-0 z-50" style={{ background: '#fff' }}>
+      <div style={{ borderBottom: '3px solid #cc0000', background: '#fff' }}>
         <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="pulse-red p-1.5 rounded">
               <AlertTriangle size={18} className="text-white" />
             </div>
             <div>
-              <div className="font-anton text-3xl text-white tracking-tight leading-none">
+              <div className="font-anton text-3xl tracking-tight leading-none" style={{ color: '#111' }}>
                 EL INFORMADOR
                 <span style={{ color: '#cc0000' }}>TOTAL</span>
               </div>
-              <div className="font-oswald text-xs tracking-widest text-gray-400 uppercase">
+              <div className="font-oswald text-xs tracking-widest uppercase" style={{ color: '#888' }}>
                 La verdad duele. Nosotros la exageramos.
               </div>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2 text-xs font-oswald text-gray-400 uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#888' }}>
               <Radio size={12} style={{ color: '#cc0000' }} className="blink" />
               <span>En vivo: 4.2M en panico</span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-oswald text-gray-400 uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#888' }}>
               <Zap size={12} style={{ color: '#ff6600' }} />
               <span>18 Abr 2026 — 23:59</span>
             </div>
@@ -42,7 +42,7 @@ export default function Header() {
         </div>
       </div>
 
-      <nav className="border-b border-gray-900" style={{ background: '#111' }}>
+      <nav style={{ background: '#1a1a1a', borderBottom: '1px solid #333' }}>
         <div className="max-w-screen-2xl mx-auto px-4 flex items-center gap-1 overflow-x-auto">
           {navItems.map((item, i) => {
             const isMundial = item === 'MUNDIAL 2026';
@@ -54,11 +54,11 @@ export default function Header() {
               <button
                 key={item}
                 className="font-oswald text-xs font-600 uppercase tracking-wider px-4 py-3 whitespace-nowrap transition-colors hover:bg-red-900/30 hover:text-red-400 relative flex items-center gap-1"
-                style={{ color: isEscandalo ? '#ff6600' : isMundial ? '#f0c040' : isSexo ? '#ff6699' : isPolitica ? '#4ade80' : '#aaa' }}
+                style={{ color: isEscandalo ? '#ff6600' : isMundial ? '#f0c040' : isSexo ? '#ff6699' : isPolitica ? '#4ade80' : '#ccc' }}
               >
                 {isEscandalo && <span style={{ color: '#ff6600' }}>*</span>}
                 {isPolitica && <DollarSign size={11} style={{ color: '#4ade80', flexShrink: 0 }} />}
-                {isEconomia && <Flame size={11} style={{ color: '#aaa', flexShrink: 0 }} />}
+                {isEconomia && <Flame size={11} style={{ color: '#ccc', flexShrink: 0 }} />}
                 {isMundial && <span>⚽</span>}
                 {isSexo && <span>🔥</span>}
                 {item}

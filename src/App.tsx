@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen noise-bg" style={{ background: '#0a0a0a' }}>
+    <div className="min-h-screen noise-bg" style={{ background: '#f5f5f5' }}>
       <Header />
       <EditorialBanner />
       <HeroSection />
@@ -31,7 +31,7 @@ function App() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
+        <div className="mt-12 pt-8" style={{ borderTop: '1px solid #ddd' }}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <WorldCupColumn />
             <AskTheSpecialist />

@@ -78,7 +78,7 @@ export default function SidebarOfShame() {
     <aside className="w-full">
       <div className="sticky top-36">
         <div className="flex items-center gap-3 mb-3 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
-          <span className="font-oswald font-700 text-white uppercase tracking-wider text-sm">
+          <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#111' }}>
             LA COLUMNA DEL MORBO
           </span>
           <span className="exclusive-badge blink-slow text-xs">EN VIVO</span>
@@ -89,7 +89,7 @@ export default function SidebarOfShame() {
             <div
               key={i}
               className="sidebar-item flex gap-3 py-3 cursor-pointer"
-              style={{ borderBottom: '1px solid #1a1a1a' }}
+              style={{ borderBottom: '1px solid #e5e5e5' }}
             >
               <div className="flex-shrink-0 relative" style={{ width: 80, height: 64 }}>
                 <img
@@ -107,21 +107,21 @@ export default function SidebarOfShame() {
               </div>
               <div className="flex-1 min-w-0">
                 <p
-                  className="sidebar-title font-oswald text-xs leading-tight text-gray-300 transition-colors"
-                  style={{ fontSize: '0.72rem', lineHeight: '1.3' }}
+                  className="sidebar-title font-oswald text-xs leading-tight transition-colors"
+                  style={{ color: '#333', fontSize: '0.72rem', lineHeight: '1.3' }}
                 >
                   {item.title}
                 </p>
                 <div className="flex items-center gap-1 mt-1">
-                  <span className="text-gray-600 font-oswald" style={{ fontSize: '0.6rem' }}>Hace {item.time}</span>
-                  <ChevronRight size={8} className="text-gray-600" />
+                  <span className="font-oswald" style={{ fontSize: '0.6rem', color: '#aaa' }}>Hace {item.time}</span>
+                  <ChevronRight size={8} style={{ color: '#aaa' }} />
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <button className="w-full py-3 mt-2 font-oswald font-700 text-sm uppercase tracking-wider text-white transition-all hover:opacity-80" style={{ background: '#1a1a1a', border: '1px solid #333' }}>
+        <button className="w-full py-3 mt-2 font-oswald font-700 text-sm uppercase tracking-wider transition-all hover:opacity-80" style={{ background: '#f0f0f0', border: '1px solid #ddd', color: '#333' }}>
           CARGAR MAS TRAGEDIAS
         </button>
       </div>

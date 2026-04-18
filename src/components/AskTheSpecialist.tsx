@@ -33,34 +33,34 @@ export default function AskTheSpecialist() {
     <section className="w-full">
       <div className="flex items-center gap-3 mb-5 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
         <Mail size={16} style={{ color: '#cc0000' }} />
-        <span className="font-oswald font-700 text-white uppercase tracking-wider text-sm">CORREO DEL CORAZON</span>
+        <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#111' }}>CORREO DEL CORAZON</span>
         <span className="breaking-badge text-xs">ADULTOS</span>
       </div>
 
-      <div className="mb-5 p-3 flex items-start gap-3" style={{ background: '#0d0d0d', border: '1px solid #cc0000' }}>
+      <div className="mb-5 p-3 flex items-start gap-3" style={{ background: '#fff8f8', border: '1px solid #cc0000' }}>
         <div className="flex-shrink-0 relative">
           <div
             className="flex items-center justify-center"
-            style={{ width: 56, height: 56, background: '#1a0000', border: '2px solid #cc0000' }}
+            style={{ width: 56, height: 56, background: '#ffe8e8', border: '2px solid #cc0000' }}
           >
             <Crown size={24} style={{ color: '#cc0000' }} />
           </div>
           <span className="absolute -bottom-1 -right-1 pulse-red" style={{ width: 12, height: 12, borderRadius: '50%', display: 'block' }} />
         </div>
         <div>
-          <div className="font-anton text-white text-sm leading-tight">EL ESPECIALISTA</div>
+          <div className="font-anton text-sm leading-tight" style={{ color: '#111' }}>EL ESPECIALISTA</div>
           <div className="font-oswald text-xs mt-0.5" style={{ color: '#ff6600' }}>
             Primer Ministro de un pais europeo. Doctor en Amor Propio Aplicado.
           </div>
-          <div className="font-oswald text-gray-500 text-xs mt-1 leading-tight">
+          <div className="font-oswald text-xs mt-1 leading-tight" style={{ color: '#888' }}>
             Atiende consultas entre sesion y sesion de gobierno. Disponibilidad limitada por compromisos institucionales y sesiones de fotos.
           </div>
         </div>
       </div>
 
-      <div className="mb-4 flex items-center gap-2 px-3 py-2" style={{ background: '#1a0a00', border: '1px solid #e65c00' }}>
+      <div className="mb-4 flex items-center gap-2 px-3 py-2" style={{ background: '#fff8f0', border: '1px solid #e65c00' }}>
         <AlertTriangle size={12} style={{ color: '#ff6600' }} />
-        <p className="font-oswald text-gray-400 leading-tight" style={{ fontSize: '0.65rem' }}>
+        <p className="font-oswald leading-tight" style={{ fontSize: '0.65rem', color: '#777' }}>
           AVISO: Las respuestas del especialista no constituyen asesoramiento medico ni politico. Aunque a veces es dificil distinguir la diferencia.
         </p>
       </div>
@@ -70,7 +70,7 @@ export default function AskTheSpecialist() {
           <div
             key={i}
             className="p-4"
-            style={{ background: '#0d0d0d', borderLeft: '3px solid #cc0000' }}
+            style={{ background: '#fff8f8', borderLeft: '3px solid #cc0000' }}
           >
             <div className="flex items-center gap-2 mb-3">
               <Heart size={10} style={{ color: '#cc0000' }} />
@@ -78,12 +78,12 @@ export default function AskTheSpecialist() {
                 {letter.from}
               </span>
             </div>
-            <p className="font-oswald text-gray-300 text-xs leading-relaxed mb-4 italic" style={{ borderBottom: '1px solid #1a1a1a', paddingBottom: '12px' }}>
+            <p className="font-oswald text-xs leading-relaxed mb-4 italic" style={{ borderBottom: '1px solid #e8d0d0', paddingBottom: '12px', color: '#444' }}>
               "{letter.question}"
             </p>
             <div className="flex items-start gap-2">
               <Crown size={12} style={{ color: '#ff6600', flexShrink: 0, marginTop: 2 }} />
-              <p className="font-oswald text-gray-400 text-xs leading-relaxed">
+              <p className="font-oswald text-xs leading-relaxed" style={{ color: '#555' }}>
                 <span className="font-700 uppercase" style={{ color: '#ff6600', fontSize: '0.65rem', letterSpacing: '0.08em' }}>
                   EL ESPECIALISTA RESPONDE:{' '}
                 </span>
@@ -94,19 +94,19 @@ export default function AskTheSpecialist() {
         ))}
       </div>
 
-      <div className="mt-5 p-4" style={{ background: '#0d0000', border: '1px dashed #cc0000' }}>
-        <p className="font-oswald font-700 text-white text-xs uppercase tracking-wider mb-2">
+      <div className="mt-5 p-4" style={{ background: '#fff8f8', border: '1px dashed #cc0000' }}>
+        <p className="font-oswald font-700 text-xs uppercase tracking-wider mb-2" style={{ color: '#111' }}>
           ENVIE SU CONSULTA
         </p>
-        <p className="font-oswald text-gray-500 text-xs mb-3 leading-relaxed">
+        <p className="font-oswald text-xs mb-3 leading-relaxed" style={{ color: '#888' }}>
           El especialista responde personalmente entre el martes y el jueves, salvo que haya decreto de estado de alarma conyugal.
         </p>
         <div className="flex gap-2">
           <input
             type="text"
             placeholder="Cuente su tragedia sentimental..."
-            className="flex-1 px-3 py-2 font-oswald text-xs text-white"
-            style={{ background: '#1a1a1a', border: '1px solid #333', outline: 'none' }}
+            className="flex-1 px-3 py-2 font-oswald text-xs"
+            style={{ background: '#fff', border: '1px solid #ddd', outline: 'none', color: '#111' }}
           />
           <button
             className="px-4 py-2 font-oswald font-700 text-xs uppercase text-white transition-opacity hover:opacity-80"

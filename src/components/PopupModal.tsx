@@ -22,12 +22,13 @@ export default function PopupModal() {
     >
       <div
         className="modal-in relative max-w-md w-full p-8"
-        style={{ background: '#0a0a0a', border: '2px solid #cc0000', boxShadow: '0 0 60px rgba(204,0,0,0.5)' }}
+        style={{ background: '#ffffff', border: '2px solid #cc0000', boxShadow: '0 0 60px rgba(204,0,0,0.3)' }}
         onClick={e => e.stopPropagation()}
       >
         <button
           onClick={() => { setVisible(false); setClosed(true); }}
-          className="absolute top-3 right-3 text-gray-600 hover:text-white transition-colors"
+          className="absolute top-3 right-3 transition-colors hover:text-red-600"
+          style={{ color: '#aaa' }}
         >
           <X size={18} />
         </button>
@@ -37,14 +38,14 @@ export default function PopupModal() {
           <span className="breaking-badge pulse-red text-xs">ALERTA DE SUSCRIPCION</span>
         </div>
 
-        <h2 className="font-anton text-white text-3xl leading-tight mb-4">
+        <h2 className="font-anton text-3xl leading-tight mb-4" style={{ color: '#111' }}>
           ¿TE VAS A IR SIN SUSCRIBIRTE?
         </h2>
 
-        <p className="font-oswald text-gray-300 text-sm mb-2 leading-relaxed">
+        <p className="font-oswald text-sm mb-2 leading-relaxed" style={{ color: '#444' }}>
           Claro. Asume la ignorancia.
         </p>
-        <p className="font-oswald text-gray-400 text-sm mb-6 leading-relaxed">
+        <p className="font-oswald text-sm mb-6 leading-relaxed" style={{ color: '#666' }}>
           Se uno de ellos. Uno de esos que se entera de las noticias por lo que le cuenta el cunado en un asado.
           Un ser que vive en las sombras de la desinformacion mientras nosotros te ofrecemos
           <span style={{ color: '#ff6600' }}> noticias completamente exageradas </span>
@@ -54,8 +55,8 @@ export default function PopupModal() {
         <input
           type="email"
           placeholder="tu@email.com (si no te suscribes, lo entendemos)"
-          className="w-full px-4 py-3 mb-3 font-oswald text-sm text-white"
-          style={{ background: '#1a1a1a', border: '1px solid #333', outline: 'none' }}
+          className="w-full px-4 py-3 mb-3 font-oswald text-sm"
+          style={{ background: '#f8f8f8', border: '1px solid #ddd', outline: 'none', color: '#111' }}
         />
 
         <button
@@ -67,8 +68,8 @@ export default function PopupModal() {
         </button>
 
         <button
-          className="w-full py-2 font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-400"
-          style={{ color: '#555' }}
+          className="w-full py-2 font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-600"
+          style={{ color: '#999' }}
           onClick={() => { setVisible(false); setClosed(true); }}
         >
           No gracias, prefiero vivir en la oscuridad

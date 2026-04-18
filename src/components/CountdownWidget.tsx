@@ -21,7 +21,7 @@ export default function CountdownWidget() {
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return (
-    <div className="mb-6 p-4 scanline-overlay" style={{ background: '#0d0d0d', border: '1px solid #e65c00' }}>
+    <div className="mb-6 p-4 scanline-overlay" style={{ background: '#fff8f0', border: '2px solid #e65c00' }}>
       <div className="flex items-center gap-2 mb-3">
         <AlertTriangle size={14} style={{ color: '#ff6600' }} className="blink" />
         <span className="font-oswald font-700 uppercase text-xs tracking-widest" style={{ color: '#ff6600' }}>
@@ -36,7 +36,7 @@ export default function CountdownWidget() {
         <span className="font-anton text-2xl" style={{ color: '#ff6600' }}>:</span>
         <div className="countdown-digit">{pad(time.s)}</div>
       </div>
-      <p className="font-oswald text-gray-400 text-xs leading-tight uppercase tracking-wide">
+      <p className="font-oswald text-xs leading-tight uppercase tracking-wide" style={{ color: '#777' }}>
         Tiempo restante para que ocurra algo.<br />
         <span style={{ color: '#ff6600' }}>No sabemos el que.</span>
       </p>

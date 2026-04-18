@@ -23,7 +23,7 @@ export default function AlertBanner() {
               ULTIMO MOMENTO
             </span>
           </div>
-          <p className="font-oswald text-gray-300 text-xs leading-tight flex-1">{alert.text}</p>
+          <p className="font-oswald text-xs leading-tight flex-1" style={{ color: '#333' }}>{alert.text}</p>
         </div>
       ))}
     </div>
