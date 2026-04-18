@@ -29,7 +29,7 @@ export default function YouTubeColumn() {
     <section className="w-full">
       <div className="flex items-center gap-3 mb-5 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
         <Youtube size={16} style={{ color: '#cc0000' }} />
-        <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#111' }}>CANAL OFICIAL</span>
+        <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>CANAL OFICIAL</span>
         <span className="font-oswald text-xs uppercase tracking-widest px-2 py-0.5" style={{ background: '#cc0000', color: 'white', fontSize: '0.55rem', letterSpacing: '0.1em' }}>
           YOUTUBE
         </span>
@@ -40,7 +40,7 @@ export default function YouTubeColumn() {
         {videos.map((video, i) => (
           <div key={video.id} className="group">
             {i === 0 ? (
-              <div className="relative w-full overflow-hidden" style={{ paddingBottom: '56.25%', background: '#f0f0f0' }}>
+              <div className="relative w-full overflow-hidden" style={{ paddingBottom: '56.25%', background: '#0d0d0d' }}>
                 <iframe
                   className="absolute inset-0 w-full h-full"
                   src={`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1`}
@@ -56,7 +56,7 @@ export default function YouTubeColumn() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block relative overflow-hidden cursor-pointer"
-                style={{ paddingBottom: '56.25%', background: '#eee' }}
+                style={{ paddingBottom: '56.25%', background: '#111' }}
               >
                 <img
                   src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
@@ -91,7 +91,7 @@ export default function YouTubeColumn() {
                   {video.label}
                 </span>
               )}
-              <h3 className="font-anton text-sm leading-tight group-hover:text-red-600 transition-colors" style={{ color: '#111' }}>
+              <h3 className="font-anton text-sm leading-tight group-hover:text-red-400 transition-colors" style={{ color: '#f0f0f0' }}>
                 {video.title}
               </h3>
               <p className="font-oswald text-xs mt-1 uppercase tracking-wider" style={{ color: '#888' }}>{video.views}</p>

@@ -5,30 +5,30 @@ const navItems = ['POLITICA', 'ECONOMIA', 'ESCANDALO', 'ESPECTACULOS', 'MUNDIAL 
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50" style={{ background: '#fff' }}>
-      <div style={{ borderBottom: '3px solid #cc0000', background: '#fff' }}>
+    <header className="sticky top-0 z-50" style={{ background: '#0a0a0a' }}>
+      <div style={{ borderBottom: '3px solid #cc0000', background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%)' }}>
         <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="pulse-red p-1.5 rounded">
               <AlertTriangle size={18} className="text-white" />
             </div>
             <div>
-              <div className="font-anton text-3xl tracking-tight leading-none" style={{ color: '#111' }}>
-                EL INFORMADOR
-                <span style={{ color: '#cc0000' }}>TOTAL</span>
+              <div className="font-anton text-3xl tracking-tight leading-none" style={{ color: '#f0f0f0' }}>
+                ROMPE
+                <span style={{ color: '#cc0000' }}>NOTICIAS</span>
               </div>
-              <div className="font-oswald text-xs tracking-widest uppercase" style={{ color: '#888' }}>
+              <div className="font-oswald text-xs tracking-widest uppercase" style={{ color: '#999' }}>
                 La verdad duele. Nosotros la exageramos.
               </div>
             </div>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#888' }}>
+            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#aaa' }}>
               <Radio size={12} style={{ color: '#cc0000' }} className="blink" />
               <span>En vivo: 4.2M en panico</span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#888' }}>
+            <div className="flex items-center gap-2 text-xs font-oswald uppercase tracking-wider" style={{ color: '#aaa' }}>
               <Zap size={12} style={{ color: '#ff6600' }} />
               <span>18 Abr 2026 — 23:59</span>
             </div>

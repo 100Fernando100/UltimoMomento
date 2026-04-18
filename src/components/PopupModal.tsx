@@ -22,7 +22,7 @@ export default function PopupModal() {
     >
       <div
         className="modal-in relative max-w-md w-full p-8"
-        style={{ background: '#ffffff', border: '2px solid #cc0000', boxShadow: '0 0 60px rgba(204,0,0,0.3)' }}
+        style={{ background: '#0a0a0a', border: '2px solid #cc0000', boxShadow: '0 0 60px rgba(204,0,0,0.5)' }}
         onClick={e => e.stopPropagation()}
       >
         <button
@@ -38,14 +38,14 @@ export default function PopupModal() {
           <span className="breaking-badge pulse-red text-xs">ALERTA DE SUSCRIPCION</span>
         </div>
 
-        <h2 className="font-anton text-3xl leading-tight mb-4" style={{ color: '#111' }}>
+        <h2 className="font-anton text-3xl leading-tight mb-4 text-white">
           ¿TE VAS A IR SIN SUSCRIBIRTE?
         </h2>
 
-        <p className="font-oswald text-sm mb-2 leading-relaxed" style={{ color: '#444' }}>
+        <p className="font-oswald text-sm mb-2 leading-relaxed" style={{ color: '#d0d0d0' }}>
           Claro. Asume la ignorancia.
         </p>
-        <p className="font-oswald text-sm mb-6 leading-relaxed" style={{ color: '#666' }}>
+        <p className="font-oswald text-sm mb-6 leading-relaxed" style={{ color: '#aaa' }}>
           Se uno de ellos. Uno de esos que se entera de las noticias por lo que le cuenta el cunado en un asado.
           Un ser que vive en las sombras de la desinformacion mientras nosotros te ofrecemos
           <span style={{ color: '#ff6600' }}> noticias completamente exageradas </span>
@@ -56,7 +56,7 @@ export default function PopupModal() {
           type="email"
           placeholder="tu@email.com (si no te suscribes, lo entendemos)"
           className="w-full px-4 py-3 mb-3 font-oswald text-sm"
-          style={{ background: '#f8f8f8', border: '1px solid #ddd', outline: 'none', color: '#111' }}
+          style={{ background: '#1a1a1a', border: '1px solid #333', outline: 'none', color: '#fff' }}
         />
 
         <button

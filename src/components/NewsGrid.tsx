@@ -110,13 +110,13 @@ function StoryCard({ story }: { story: typeof featuredStories[0] }) {
           {story.kicker}
         </span>
         <h3
-          className="font-anton mt-2 leading-tight group-hover:text-red-600 transition-colors"
-          style={{ fontSize: story.size === 'large' ? '1.25rem' : '1rem', color: '#111' }}
+          className="font-anton mt-2 leading-tight group-hover:text-red-400 transition-colors"
+          style={{ fontSize: story.size === 'large' ? '1.25rem' : '1rem', color: '#f0f0f0' }}
         >
           {story.title}
         </h3>
         {story.excerpt && (
-          <p className="text-xs mt-2 leading-relaxed font-oswald" style={{ color: '#666' }}>{story.excerpt}</p>
+          <p className="text-xs mt-2 leading-relaxed font-oswald" style={{ color: '#b0b0b0' }}>{story.excerpt}</p>
         )}
         <div className="flex items-center gap-4 mt-3 font-oswald uppercase" style={{ fontSize: '0.65rem', letterSpacing: '0.05em', color: '#888' }}>
           <span className="flex items-center gap-1">
@@ -141,7 +141,7 @@ function StoryCard({ story }: { story: typeof featuredStories[0] }) {
 
 function SmallStoryCard({ story }: { story: typeof secondaryStories[0] }) {
   return (
-    <div className="news-card flex gap-3 py-3 cursor-pointer group" style={{ borderBottom: '1px solid #e5e5e5' }}>
+    <div className="news-card flex gap-3 py-3 cursor-pointer group" style={{ borderBottom: '1px solid #1a1a1a' }}>
       <div className="flex-shrink-0 relative overflow-hidden" style={{ width: 90, height: 70 }}>
         <img
           src={story.img}
@@ -156,10 +156,10 @@ function SmallStoryCard({ story }: { story: typeof secondaryStories[0] }) {
         </span>
       </div>
       <div className="flex-1">
-        <h4 className="font-oswald font-600 text-xs leading-tight group-hover:text-red-600 transition-colors" style={{ fontSize: '0.78rem', lineHeight: 1.3, color: '#111' }}>
+        <h4 className="font-oswald font-600 text-xs leading-tight group-hover:text-red-400 transition-colors" style={{ fontSize: '0.78rem', lineHeight: 1.3, color: '#e0e0e0' }}>
           {story.title}
         </h4>
-        <div className="flex items-center gap-3 mt-2 font-oswald" style={{ fontSize: '0.6rem', color: '#999' }}>
+        <div className="flex items-center gap-3 mt-2 font-oswald" style={{ fontSize: '0.6rem', color: '#777' }}>
           <span className="flex items-center gap-1"><Clock size={8} />{story.time}</span>
           <span className="flex items-center gap-1"><Eye size={8} style={{ color: '#ff6600' }} />{story.views}</span>
         </div>
@@ -173,7 +173,7 @@ export default function NewsGrid() {
     <div className="flex flex-col gap-8">
       <div>
         <div className="flex items-center gap-3 mb-5 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
-          <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#111' }}>TRAGEDIAS DESTACADAS</span>
+          <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>TRAGEDIAS DESTACADAS</span>
           <span className="breaking-badge blink text-xs">NUEVO</span>
         </div>
         <div className="grid gap-5" style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto' }}>
@@ -195,10 +195,10 @@ export default function NewsGrid() {
           style={{ borderBottom: '2px solid #e65c00' }}
         >
           <div className="flex items-center gap-3">
-            <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#111' }}>MAS CATASTROFES</span>
+            <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>MAS CATASTROFES</span>
             <span className="exclusive-badge text-xs">HOY</span>
           </div>
-          <button className="font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-600" style={{ color: '#888' }}>
+          <button className="font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-400" style={{ color: '#777' }}>
             Ver todas las desgracias
           </button>
         </div>
@@ -209,16 +209,16 @@ export default function NewsGrid() {
         </div>
       </div>
 
-      <div className="p-4" style={{ background: '#fff8f8', border: '2px solid #cc0000' }}>
+      <div className="p-4" style={{ background: '#111', border: '2px solid #cc0000' }}>
         <div className="flex items-center gap-2 mb-3">
           <span className="breaking-badge pulse-red text-xs">EXCLUSIVO</span>
           <span className="font-oswald text-xs uppercase tracking-wider" style={{ color: '#888' }}>Investigacion especial de 18 meses</span>
         </div>
-        <h3 className="font-anton text-xl leading-tight mb-2" style={{ color: '#111' }}>
+        <h3 className="font-anton text-xl leading-tight mb-2" style={{ color: '#f0f0f0' }}>
           EL INFORME QUE LOS PODEROSOS NO QUIEREN QUE LEAS:
           <span style={{ color: '#ff6600' }}> POR QUE EL CAFE DE LA OFICINA SIEMPRE ESTA VACIO CUANDO MAS LO NECESITAS</span>
         </h3>
-        <p className="font-oswald text-xs leading-relaxed mb-3" style={{ color: '#555' }}>
+        <p className="font-oswald text-xs leading-relaxed mb-3" style={{ color: '#b0b0b0' }}>
           Tras 18 meses de investigacion periodistica de alto riesgo, nuestro equipo descubrio que existe
           un patron sistematico e imperdonable. Los datos son devastadores.
         </p>

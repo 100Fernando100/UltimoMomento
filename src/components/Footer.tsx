@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="font-anton text-xl mb-1" style={{ color: '#fff' }}>
-              EL INFORMADOR<span style={{ color: '#cc0000' }}>TOTAL</span>
+              ROMPE<span style={{ color: '#cc0000' }}>NOTICIAS</span>
             </div>
             <p className="font-oswald text-xs leading-relaxed mt-2" style={{ color: '#999' }}>
               Desde 2024 exagerando la realidad para que sea mas digerible.
@@ -35,7 +35,7 @@ export default function Footer() {
         </div>
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid #333' }}>
           <p className="font-oswald text-xs uppercase tracking-wider" style={{ color: '#666' }}>
-            (C) 2026 El Informador Total — Todo el contenido es pura satira. Cualquier semejanza con la realidad es completamente deliberada.
+            (C) 2026 RompeNoticias — Todo el contenido es pura satira. Cualquier semejanza con la realidad es completamente deliberada.
           </p>
           <div className="flex items-center gap-2">
             <span className="font-oswald text-xs" style={{ color: '#666' }}>Lectores en panico ahora mismo:</span>
