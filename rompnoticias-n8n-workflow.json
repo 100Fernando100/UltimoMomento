@@ -1,0 +1,380 @@
+{
+  "name": "RompeNoticias MVP — Camino A (Infobae AR/ES/MX)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 2
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Cada 2 horas",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://www.infobae.com/feeds/rss/"
+      },
+      "id": "rss-ar",
+      "name": "RSS — Infobae Argentina",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 160]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "country-ar",
+              "name": "country",
+              "value": "AR",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "includeOtherFields": true
+        }
+      },
+      "id": "set-ar",
+      "name": "Set — country AR",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 160]
+    },
+    {
+      "parameters": {
+        "url": "https://www.infobae.com/america/feeds/rss/"
+      },
+      "id": "rss-es",
+      "name": "RSS — Infobae España",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "country-es",
+              "name": "country",
+              "value": "ES",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "includeOtherFields": true
+        }
+      },
+      "id": "set-es",
+      "name": "Set — country ES",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://www.infobae.com/america/mexico/feeds/rss/"
+      },
+      "id": "rss-mx",
+      "name": "RSS — Infobae México",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 440]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "country-mx",
+              "name": "country",
+              "value": "MX",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "includeOtherFields": true
+        }
+      },
+      "id": "set-mx",
+      "name": "Set — country MX",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 440]
+    },
+    {
+      "parameters": {
+        "mode": "append",
+        "inputs": 3
+      },
+      "id": "merge-feeds",
+      "name": "Merge 3 feeds",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "articles",
+        "returnAll": true,
+        "filters": {},
+        "options": {
+          "select": "source_url"
+        }
+      },
+      "id": "supabase-get-urls",
+      "name": "Supabase — get recent URLs",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [860, 300],
+      "credentials": {
+        "supabaseApi": {
+          "name": "Supabase RompeNoticias"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "combine-for-filter",
+      "name": "Combinar para filtrar",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [1080, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rssItems = $input.first().json.input1 || [];\nconst existingUrls = ($input.first().json.input2 || []).map(row => row.source_url);\n\nconst newItems = rssItems.filter(item => {\n  const url = item.link || item.guid || '';\n  return url && !existingUrls.includes(url);\n});\n\nreturn newItems.map(item => ({ json: item }));"
+      },
+      "id": "filter-only-new",
+      "name": "Filter — only new",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-one-by-one",
+      "name": "Loop — one by one",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1520, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst title = item.title || '';\nconst description = item.contentSnippet || item.summary || item.description || '';\nconst link = item.link || item.guid || '';\nconst imageUrl = item.enclosure?.url || item['media:content']?.['$']?.url || item.image || '';\nconst country = item.country || 'AR';\n\nconst prompt = `Eres el redactor satirico de RompeNoticias, un medio que convierte noticias reales en titulares apocalipticos y dramaticos al estilo de los diarios sensacionalistas argentinos. Tu tono es exagerado, catastrofista y sarcastico, como si cada noticia fuera el fin del mundo.\n\nDESTINATARIOS: Lectores hispanohablantes de Argentina, España y Mexico que disfrutan del humor negro y la satira politica.\n\nNOTICIA ORIGINAL:\nTitulo: ${title}\nResumen: ${description}\nPais: ${country}\nURL: ${link}\n\nREGLAS:\n1. El titulo debe ser EXAGERADO, usar MAYUSCULAS parcialmente, terminar en : o incluir subtitulo dramatico\n2. El excerpt debe tener 2-3 oraciones en tono apocaliptico pero con informacion real de la noticia\n3. El kicker debe ser una de estas opciones exactas: COLAPSO TOTAL / EXCLUSIVO / VIRAL / IMPACTO MUNDIAL / ALERTA MAXIMA / CATASTROFE / ESCANDALO / TRAGEDIA / SHOCK / INDIGNANTE\n4. El kicker_color segun el kicker:\n   - COLAPSO TOTAL / CATASTROFE / TRAGEDIA: #cc0000\n   - EXCLUSIVO / ALERTA MAXIMA: #cc0000\n   - VIRAL / IMPACTO MUNDIAL: #ff6600\n   - ESCANDALO / SHOCK / INDIGNANTE: #e65c00\n5. El size debe ser: large (para noticias importantes), medium (noticias regulares) o small (breves)\n6. El section debe ser: tragedias, catastrofes, exclusivos, virales, escandalos\n7. Los views deben ser un numero satirico exagerado como: 4.2M, 892K, 1.7M, 3.3M\n\nDevuelve UNICAMENTE un JSON valido con este formato exacto (sin markdown, sin explicaciones):\n{\n  \"title\": \"TITULO SATIRICO EN MAYUSCULAS CON DRAMATISMO\",\n  \"excerpt\": \"Parrafo de 2-3 oraciones en tono apocaliptico pero basado en la noticia real.\",\n  \"kicker\": \"KICKER EN MAYUSCULAS\",\n  \"kicker_color\": \"#cc0000\",\n  \"size\": \"medium\",\n  \"section\": \"tragedias\",\n  \"views\": \"892K\"\n}`;\n\nreturn [{\n  json: {\n    prompt,\n    source_url: link,\n    image_url: imageUrl,\n    country,\n    original_title: title\n  }\n}];"
+      },
+      "id": "build-prompts",
+      "name": "Build prompts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1740, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "claude-3-5-haiku-20241022"
+            },
+            {
+              "name": "max_tokens",
+              "value": "1024"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"user\", \"content\": {{ $json.prompt }}}]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "claude-redactor",
+      "name": "Claude — Redactor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1960, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst prevItem = $('Build prompts').first().json;\n\nlet claudeText = '';\ntry {\n  claudeText = response.content[0].text;\n} catch(e) {\n  return [];\n}\n\nlet parsed;\ntry {\n  const jsonMatch = claudeText.match(/\\{[\\s\\S]*\\}/);\n  if (!jsonMatch) return [];\n  parsed = JSON.parse(jsonMatch[0]);\n} catch(e) {\n  return [];\n}\n\nconst validSizes = ['large', 'medium', 'small'];\nconst validSections = ['tragedias', 'catastrofes', 'exclusivos', 'virales', 'escandalos'];\nconst validColors = ['#cc0000', '#ff6600', '#e65c00'];\n\nif (!parsed.title || !parsed.excerpt || !parsed.kicker) {\n  return [];\n}\n\nreturn [{\n  json: {\n    title: String(parsed.title).substring(0, 300),\n    excerpt: String(parsed.excerpt).substring(0, 600),\n    image_url: prevItem.image_url || '',\n    kicker: String(parsed.kicker).toUpperCase().substring(0, 50),\n    kicker_color: validColors.includes(parsed.kicker_color) ? parsed.kicker_color : '#cc0000',\n    size: validSizes.includes(parsed.size) ? parsed.size : 'medium',\n    section: validSections.includes(parsed.section) ? parsed.section : 'tragedias',\n    views: String(parsed.views || '0'),\n    source_url: prevItem.source_url || '',\n    country: prevItem.country || 'AR',\n    active: true,\n    comments: 0,\n    featured: false,\n    sort_order: 0\n  }\n}];"
+      },
+      "id": "parse-validate",
+      "name": "Parse & validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2180, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "tableId": "articles",
+        "dataToSend": "defineBelow",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "title", "fieldValue": "={{ $json.title }}" },
+            { "fieldId": "excerpt", "fieldValue": "={{ $json.excerpt }}" },
+            { "fieldId": "image_url", "fieldValue": "={{ $json.image_url }}" },
+            { "fieldId": "kicker", "fieldValue": "={{ $json.kicker }}" },
+            { "fieldId": "kicker_color", "fieldValue": "={{ $json.kicker_color }}" },
+            { "fieldId": "size", "fieldValue": "={{ $json.size }}" },
+            { "fieldId": "section", "fieldValue": "={{ $json.section }}" },
+            { "fieldId": "views", "fieldValue": "={{ $json.views }}" },
+            { "fieldId": "source_url", "fieldValue": "={{ $json.source_url }}" },
+            { "fieldId": "country", "fieldValue": "={{ $json.country }}" },
+            { "fieldId": "active", "fieldValue": "={{ $json.active }}" },
+            { "fieldId": "comments", "fieldValue": "={{ $json.comments }}" },
+            { "fieldId": "featured", "fieldValue": "={{ $json.featured }}" },
+            { "fieldId": "sort_order", "fieldValue": "={{ $json.sort_order }}" }
+          ]
+        }
+      },
+      "id": "supabase-insert",
+      "name": "Supabase — insert article",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [2400, 300],
+      "credentials": {
+        "supabaseApi": {
+          "name": "Supabase RompeNoticias"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Cada 2 horas": {
+      "main": [
+        [
+          { "node": "RSS — Infobae Argentina", "type": "main", "index": 0 },
+          { "node": "RSS — Infobae España", "type": "main", "index": 0 },
+          { "node": "RSS — Infobae México", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "RSS — Infobae Argentina": {
+      "main": [
+        [{ "node": "Set — country AR", "type": "main", "index": 0 }]
+      ]
+    },
+    "RSS — Infobae España": {
+      "main": [
+        [{ "node": "Set — country ES", "type": "main", "index": 0 }]
+      ]
+    },
+    "RSS — Infobae México": {
+      "main": [
+        [{ "node": "Set — country MX", "type": "main", "index": 0 }]
+      ]
+    },
+    "Set — country AR": {
+      "main": [
+        [{ "node": "Merge 3 feeds", "type": "main", "index": 0 }]
+      ]
+    },
+    "Set — country ES": {
+      "main": [
+        [{ "node": "Merge 3 feeds", "type": "main", "index": 1 }]
+      ]
+    },
+    "Set — country MX": {
+      "main": [
+        [{ "node": "Merge 3 feeds", "type": "main", "index": 2 }]
+      ]
+    },
+    "Merge 3 feeds": {
+      "main": [
+        [
+          { "node": "Supabase — get recent URLs", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Supabase — get recent URLs": {
+      "main": [
+        [{ "node": "Filter — only new", "type": "main", "index": 0 }]
+      ]
+    },
+    "Filter — only new": {
+      "main": [
+        [{ "node": "Loop — one by one", "type": "main", "index": 0 }]
+      ]
+    },
+    "Loop — one by one": {
+      "main": [
+        [{ "node": "Build prompts", "type": "main", "index": 0 }],
+        []
+      ]
+    },
+    "Build prompts": {
+      "main": [
+        [{ "node": "Claude — Redactor", "type": "main", "index": 0 }]
+      ]
+    },
+    "Claude — Redactor": {
+      "main": [
+        [{ "node": "Parse & validate", "type": "main", "index": 0 }]
+      ]
+    },
+    "Parse & validate": {
+      "main": [
+        [{ "node": "Supabase — insert article", "type": "main", "index": 0 }]
+      ]
+    },
+    "Supabase — insert article": {
+      "main": [
+        [{ "node": "Loop — one by one", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": ""
+  },
+  "tags": [],
+  "pinData": {}
+}
