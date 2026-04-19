@@ -1,42 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Trophy, Flame, Star, TrendingUp } from 'lucide-react';
-
-const worldCupNews = [
-  {
-    flag: '🏆',
-    kicker: 'ESCANDALO DEPORTIVO',
-    kickerColor: '#cc0000',
-    title: 'MUNDIAL 2026: TECNICO PROMETE "JUGAMOS PARA EL ESPECTACULO" Y SU EQUIPO EMPATA 0-0 EN 90 MINUTOS DE PURA CONTEMPLACION',
-    img: 'https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=400',
-    detail: 'El partido fue calificado por expertos como "arte conceptual" y por los hinchas como "una estafa con silbato".',
-    badge: 'GRUPO A',
-  },
-  {
-    flag: '⚽',
-    kicker: 'BREAKING FUTBOL',
-    kickerColor: '#e65c00',
-    title: 'ESTRELLA DEL MUNDIAL 2026 LLORA EN CONFERENCIA Y MARCA DE ROPA DEPORTIVA LANZA COLECCION ESPECIAL EN 48 HORAS',
-    img: 'https://images.pexels.com/photos/3621104/pexels-photo-3621104.jpeg?auto=compress&cs=tinysrgb&w=400',
-    detail: 'La remera "Lagrimas de Campeon" ya agoto stock en 14 paises.',
-    badge: 'SEMIFINAL',
-  },
-  {
-    flag: '📺',
-    kicker: 'TV & MUNDIAL',
-    kickerColor: '#cc0000',
-    title: 'COMENTARISTA DICE "ES UN PARTIDO DE DOS TIEMPOS" Y GANA PREMIO AL ANALISIS MAS PROFUNDO DEL TORNEO',
-    img: 'https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=400',
-    detail: 'Colegas lo elogiaron por "no tener miedo de decir lo que todos pensaban pero nadie se atrevia".',
-    badge: 'OPINION',
-  },
-];
-
-const liveScores = [
-  { team1: 'ARGENTINA', score1: 3, team2: 'EL SENTIDO COMUN', score2: 0, status: 'EN JUEGO', min: "87'" },
-  { team1: 'BRASIL', score1: 1, team2: 'SUS PROPIAS EXPECTATIVAS', score2: 2, status: 'FINALIZADO', min: "FT" },
-  { team1: 'ESPANA', score1: 0, team2: 'UNA EXPLICACION CONVINCENTE', score2: 0, status: 'PRONTO', min: "20:00" },
-];
+import { supabase, WorldCupMatch, WorldCupNews } from '../lib/supabase';
 
 export default function WorldCupColumn() {
+  const [scores, setScores] = useState<WorldCupMatch[]>([]);
+  const [news, setNews] = useState<WorldCupNews[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('world_cup_matches')
+      .select('*')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data }) => { if (data) setScores(data); });
+
+    supabase
+      .from('world_cup_news')
+      .select('*')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data }) => { if (data) setNews(data); });
+  }, []);
+
   return (
     <section className="w-full">
       <div className="flex items-center gap-3 mb-4 pb-3" style={{ borderBottom: '2px solid #e65c00' }}>
@@ -60,12 +45,9 @@ export default function WorldCupColumn() {
           <TrendingUp size={12} style={{ color: '#cc0000' }} className="blink" />
         </div>
         <div className="flex flex-col gap-2">
-          {liveScores.map((s, i) => (
-            <div key={i} className="flex items-center gap-2 py-2" style={{ borderBottom: '1px solid #1a1a1a' }}>
-              <span
-                className="font-oswald font-700 flex-1 text-right text-xs uppercase"
-                style={{ maxWidth: 130, color: '#e0e0e0' }}
-              >
+          {scores.map((s) => (
+            <div key={s.id} className="flex items-center gap-2 py-2" style={{ borderBottom: '1px solid #1a1a1a' }}>
+              <span className="font-oswald font-700 flex-1 text-right text-xs uppercase" style={{ maxWidth: 130, color: '#e0e0e0' }}>
                 {s.team1}
               </span>
               <div className="flex items-center gap-1 flex-shrink-0">
@@ -79,7 +61,7 @@ export default function WorldCupColumn() {
                     letterSpacing: '0.1em',
                   }}
                 >
-                  {s.status === 'EN JUEGO' ? s.min : s.status}
+                  {s.status === 'EN JUEGO' ? s.minute : s.status}
                 </span>
                 <span className="font-anton" style={{ fontSize: '1.1rem', lineHeight: 1, color: '#fff' }}>{s.score2}</span>
               </div>
@@ -92,11 +74,11 @@ export default function WorldCupColumn() {
       </div>
 
       <div className="flex flex-col gap-5">
-        {worldCupNews.map((item, i) => (
-          <div key={i} className="news-card cursor-pointer group">
+        {news.map((item) => (
+          <div key={item.id} className="news-card cursor-pointer group">
             <div className="relative overflow-hidden" style={{ height: 160 }}>
               <img
-                src={item.img}
+                src={item.image_url}
                 alt=""
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -106,14 +88,14 @@ export default function WorldCupColumn() {
               />
               <span
                 className="absolute top-2 left-2 font-oswald font-700 text-white text-xs uppercase px-2 py-1"
-                style={{ background: item.kickerColor, letterSpacing: '0.08em', fontSize: '0.6rem' }}
+                style={{ background: item.kicker_color, letterSpacing: '0.08em', fontSize: '0.6rem' }}
               >
                 {item.badge}
               </span>
               <div className="absolute bottom-0 left-0 right-0 p-3">
                 <span
                   className="font-oswald font-700 uppercase text-xs"
-                  style={{ color: item.kickerColor, letterSpacing: '0.08em', fontSize: '0.6rem' }}
+                  style={{ color: item.kicker_color, letterSpacing: '0.08em', fontSize: '0.6rem' }}
                 >
                   {item.kicker}
                 </span>

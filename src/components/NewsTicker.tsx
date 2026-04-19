@@ -1,15 +1,28 @@
-const tickerItems = [
-  "ULTIMO MOMENTO: Alguien en marketing uso la palabra 'sinergia' de forma no ironica y fue elogiado por ello",
-  "ALERTA MAXIMA: El cafe de la oficina se acabo y nadie compro mas. Fuentes confirman 'situacion insostenible'",
-  "BREAKING: Influencer publica foto comiendo ensalada. Expertos advierten: 'esto no refleja la realidad'",
-  "EXCLUSIVO: CEO de startup prometio trabajo remoto 'para siempre'. Tres meses despues pide 'volver a la cultura de equipo'",
-  "ULTIMO MOMENTO: Hombre en supermercado elige el carrito con la rueda rota por tercera vez consecutiva",
-  "CRISIS TOTAL: Reunion que 'podria haberse resuelto con un email' dura 2 horas y no llega a ninguna conclusion",
-  "URGENTE: Semaforo en rojo dura exactamente 4 segundos mas de lo tolerable segun vecinos del sector",
+import { useEffect, useState } from 'react';
+import { supabase, TickerItem } from '../lib/supabase';
+
+const fallbackItems = [
+  'ULTIMO MOMENTO: Alguien en marketing uso la palabra "sinergia" de forma no ironica y fue elogiado por ello',
+  'ALERTA MAXIMA: El cafe de la oficina se acabo y nadie compro mas. Fuentes confirman "situacion insostenible"',
+  'BREAKING: Influencer publica foto comiendo ensalada. Expertos advierten: "esto no refleja la realidad"',
 ];
 
 export default function NewsTicker() {
-  const fullText = tickerItems.join("   |||   ");
+  const [items, setItems] = useState<TickerItem[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('ticker_items')
+      .select('*')
+      .eq('active', true)
+      .order('sort_order')
+      .then(({ data }) => {
+        if (data && data.length > 0) setItems(data);
+      });
+  }, []);
+
+  const texts = items.length > 0 ? items.map(i => i.text) : fallbackItems;
+  const fullText = texts.join('   |||   ');
 
   return (
     <div className="bg-black border-b border-red-900 flex items-stretch overflow-hidden" style={{ height: '36px' }}>
