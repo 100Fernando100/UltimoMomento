@@ -1,20 +1,66 @@
-import { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { supabase, Article } from '../lib/supabase';
+
+interface SidebarItem {
+  id: string;
+  title: string;
+  image_url: string;
+  kicker: string;
+  kicker_color: string;
+  published_at: string;
+}
+
+const sidebarItems: SidebarItem[] = [
+  {
+    id: '1',
+    title: 'VECINO SUBE FOTO DE SU DESAYUNO Y CONSIGUE 3 LIKES: DOS SON SUYOS',
+    image_url: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'MORBO',
+    kicker_color: '#cc0000',
+    published_at: new Date(Date.now() - 1800000).toISOString(),
+  },
+  {
+    id: '2',
+    title: 'JEFE DICE "TENEMOS QUE HABLAR" Y RESULTA QUE SOLO QUERIA CAFE',
+    image_url: 'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'LABORAL',
+    kicker_color: '#e65c00',
+    published_at: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: '3',
+    title: 'HOMBRE ORDENA HABITACION ANTES DE LLAMADA DE VIDEO Y LA VUELCA TODO DESPUES',
+    image_url: 'https://images.pexels.com/photos/1457912/pexels-photo-1457912.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'ESCANDALO',
+    kicker_color: '#cc0000',
+    published_at: new Date(Date.now() - 7200000).toISOString(),
+  },
+  {
+    id: '4',
+    title: 'PERSONA PONE "MUSICA PARA CONCENTRARSE" Y LLEVA 3 HORAS BAILANDO',
+    image_url: 'https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'CULTURA',
+    kicker_color: '#7acc00',
+    published_at: new Date(Date.now() - 10800000).toISOString(),
+  },
+  {
+    id: '5',
+    title: 'MUJER ABRE TWITTER "SOLO UN MINUTO" Y EMERGE 4 HORAS DESPUES',
+    image_url: 'https://images.pexels.com/photos/1028741/pexels-photo-1028741.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'TECNOLOGIA',
+    kicker_color: '#cc0000',
+    published_at: new Date(Date.now() - 14400000).toISOString(),
+  },
+  {
+    id: '6',
+    title: 'HOMBRE COMPRA FRUTA SANA Y LA VE PODRIR CON DIGNIDAD EN EL FRUTERO',
+    image_url: 'https://images.pexels.com/photos/1435706/pexels-photo-1435706.jpeg?auto=compress&cs=tinysrgb&w=300',
+    kicker: 'SALUD',
+    kicker_color: '#e65c00',
+    published_at: new Date(Date.now() - 18000000).toISOString(),
+  },
+];
 
 export default function SidebarOfShame() {
-  const [items, setItems] = useState<Article[]>([]);
-
-  useEffect(() => {
-    supabase
-      .from('articles')
-      .select('*')
-      .eq('active', true)
-      .eq('section', 'sidebar')
-      .order('sort_order')
-      .then(({ data }) => { if (data) setItems(data); });
-  }, []);
-
   return (
     <aside className="w-full">
       <div className="sticky top-36">
@@ -26,7 +72,7 @@ export default function SidebarOfShame() {
         </div>
 
         <div className="flex flex-col gap-0">
-          {items.map((item) => (
+          {sidebarItems.map((item) => (
             <div
               key={item.id}
               className="sidebar-item flex gap-3 py-3 cursor-pointer"

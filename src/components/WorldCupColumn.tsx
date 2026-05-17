@@ -1,27 +1,63 @@
-import { useEffect, useState } from 'react';
 import { Trophy, Flame, Star, TrendingUp } from 'lucide-react';
-import { supabase, WorldCupMatch, WorldCupNews } from '../lib/supabase';
+
+interface WorldCupMatch {
+  id: string;
+  team1: string;
+  team2: string;
+  score1: number;
+  score2: number;
+  status: string;
+  minute: string;
+}
+
+interface WorldCupNews {
+  id: string;
+  title: string;
+  detail: string;
+  image_url: string;
+  kicker: string;
+  kicker_color: string;
+  badge: string;
+}
+
+const scores: WorldCupMatch[] = [
+  { id: '1', team1: 'ARGENTINA', team2: 'CANADA', score1: 4, score2: 0, status: 'FINALIZADO', minute: '' },
+  { id: '2', team1: 'MEXICO', team2: 'POLONIA', score1: 2, score2: 2, status: 'EN JUEGO', minute: "73'" },
+  { id: '3', team1: 'BRASIL', team2: 'CROACIA', score1: 1, score2: 1, status: 'EN JUEGO', minute: "88'" },
+  { id: '4', team1: 'ESPAÑA', team2: 'MARRUECOS', score1: 0, score2: 0, status: 'PROXIMO', minute: '' },
+];
+
+const news: WorldCupNews[] = [
+  {
+    id: '1',
+    title: 'ARBITRO PITA PENAL Y NADIE SABE POR QUE, NI EL MISMO',
+    detail: 'En una decision que dejo perplejos a jugadores, entrenadores y comentaristas, el arbitro senalo el punto de penal tras mirarse los zapatos durante 40 segundos.',
+    image_url: 'https://images.pexels.com/photos/3621104/pexels-photo-3621104.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'MUNDIAL',
+    kicker_color: '#e65c00',
+    badge: 'ESCANDALO',
+  },
+  {
+    id: '2',
+    title: 'JUGADOR PIDE CAMBIO POR CANSANCIO: LLEVA 3 MINUTOS EN EL CAMPO',
+    detail: 'El delantero entro en el minuto 87 y en el 90 ya senia molestias. Su entrenador lo miro sin palabras. El publico tampoco las tuvo.',
+    image_url: 'https://images.pexels.com/photos/1884574/pexels-photo-1884574.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'DEPORTES',
+    kicker_color: '#cc0000',
+    badge: 'EXCLUSIVO',
+  },
+  {
+    id: '3',
+    title: 'MASCOTA DEL MUNDIAL CAUSA MAS REVUELO QUE LOS PARTIDOS',
+    detail: 'El muñeco oficial del torneo acumula mas seguidores en redes que los jugadores titulares. Los futbolistas piden explicaciones.',
+    image_url: 'https://images.pexels.com/photos/3621104/pexels-photo-3621104.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'VIRAL',
+    kicker_color: '#7acc00',
+    badge: 'TRENDING',
+  },
+];
 
 export default function WorldCupColumn() {
-  const [scores, setScores] = useState<WorldCupMatch[]>([]);
-  const [news, setNews] = useState<WorldCupNews[]>([]);
-
-  useEffect(() => {
-    supabase
-      .from('world_cup_matches')
-      .select('*')
-      .eq('active', true)
-      .order('sort_order')
-      .then(({ data }) => { if (data) setScores(data); });
-
-    supabase
-      .from('world_cup_news')
-      .select('*')
-      .eq('active', true)
-      .order('sort_order')
-      .then(({ data }) => { if (data) setNews(data); });
-  }, []);
-
   return (
     <section className="w-full">
       <div className="flex items-center gap-3 mb-4 pb-3" style={{ borderBottom: '2px solid #e65c00' }}>

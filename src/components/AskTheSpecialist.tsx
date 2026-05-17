@@ -1,30 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Mail, Heart, Crown, AlertTriangle } from 'lucide-react';
-import { supabase, SpecialistLetter } from '../lib/supabase';
+
+interface SpecialistLetter {
+  id: string;
+  from_location: string;
+  question: string;
+  answer: string;
+}
+
+const letters: SpecialistLetter[] = [
+  {
+    id: '1',
+    from_location: 'Buenos Aires, Argentina',
+    question: 'Especialista, mi pareja dice que "necesita espacio". Compre un armario mas grande pero sigue igual de molesta. ¿Que hago?',
+    answer: 'Su interpretacion literal del problema denota una creatividad admirable aunque contraproducente. El "espacio" que menciona su pareja es de naturaleza existencial, no volumetrica. Le recomiendo devolver el armario y escuchar. Aunque reconozco que el armario era probablemente mas util.',
+  },
+  {
+    id: '2',
+    from_location: 'Ciudad de Mexico',
+    question: '¿Es normal que mi jefe llame a reunion urgente para decir que las reuniones deben ser mas cortas?',
+    answer: 'No solo es normal, es el ciclo natural del ecosistema corporativo. La reunion sobre reuniones es una fase evolutiva inevitable. Sepa que en alguna empresa del mundo hay ahora mismo una reunion sobre como reducir las reuniones sobre reuniones. La cadena es infinita.',
+  },
+  {
+    id: '3',
+    from_location: 'Madrid, Espana',
+    question: 'Especialista, pongo alarma a las 6am todos los dias para hacer ejercicio y la apago. Llevamos asi 4 años. ¿Tiene cura?',
+    answer: 'Lo que describe no es pereza, es optimismo cronico. Cada noche usted cree genuinamente en una version mejor de si mismo que se levantara al amanecer. Ese es un rasgo hermoso. Inutilizable, pero hermoso. Mi recomendacion: ponga la alarma a las 9am y digase que es para las 6. El resultado es identico pero duerme mejor.',
+  },
+  {
+    id: '4',
+    from_location: 'Bogota, Colombia',
+    question: 'Mi vecino pone reggaeton a las 11pm. Ya hable con el 7 veces. En la septima me ofrecio una cerveza y ahora somos amigos. ¿Sigo molesto?',
+    answer: 'Ha descubierto usted el mecanismo de resolucion de conflictos mas antiguo de la humanidad: la cerveza compartida. No, no debe seguir molesto. Pero si le recomiendo que el proximo conflicto con el vecino lo inicie directamente con la conversacion de la cerveza y se ahorre los 6 pasos anteriores.',
+  },
+];
 
 export default function AskTheSpecialist() {
-  const [letters, setLetters] = useState<SpecialistLetter[]>([]);
   const [question, setQuestion] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    supabase
-      .from('specialist_letters')
-      .select('*')
-      .eq('active', true)
-      .neq('answer', '')
-      .order('sort_order')
-      .then(({ data }) => { if (data) setLetters(data); });
-  }, []);
-
-  async function handleSubmit() {
+  function handleSubmit() {
     if (!question.trim()) return;
-    await supabase.from('specialist_letters').insert({
-      from_location: 'Lector anonimo',
-      question: question.trim(),
-      answer: '',
-      active: false,
-    });
     setQuestion('');
     setSubmitted(true);
   }

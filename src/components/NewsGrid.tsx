@@ -1,6 +1,107 @@
-import { useEffect, useState } from 'react';
 import { Eye, MessageSquare, Clock } from 'lucide-react';
-import { supabase, Article } from '../lib/supabase';
+
+interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  image_url: string;
+  kicker: string;
+  kicker_color: string;
+  size: 'large' | 'small';
+  views: string;
+  comments: number;
+  published_at: string;
+}
+
+const featuredArticles: Article[] = [
+  {
+    id: '1',
+    title: 'HOMBRE DESCUBRE QUE LLEVAR PARAGUAS GARANTIZA QUE NO LLUEVE: METEOROLOGOS ATERRADOS',
+    excerpt: 'El fenomeno, conocido en la ciencia como "efecto paraguas", ha desafiado todos los modelos climaticos conocidos. La ONU convoca reunion de emergencia.',
+    image_url: 'https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'CIENCIA',
+    kicker_color: '#cc0000',
+    size: 'large',
+    views: '3.2M',
+    comments: 847,
+    published_at: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: '2',
+    title: 'EXPERTOS CONFIRMAN QUE EL BOTON "CERRAR PUERTAS" DEL ASCENSOR NO HACE NADA',
+    excerpt: 'Estudio de 20 años revela que solo existe para dar la ilusion de control. Los fabricantes se niegan a comentar.',
+    image_url: 'https://images.pexels.com/photos/1797428/pexels-photo-1797428.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'INVESTIGACION',
+    kicker_color: '#e65c00',
+    size: 'small',
+    views: '1.8M',
+    comments: 412,
+    published_at: new Date(Date.now() - 7200000).toISOString(),
+  },
+  {
+    id: '3',
+    title: 'MUJER DICE "LLEGARE EN 5 MINUTOS" POR VIGESIMA VEZ CONSECUTIVA',
+    excerpt: 'Testigos reportan que los 5 minutos llevan acumulando desde el martes. Familiares piden una investigacion.',
+    image_url: 'https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=800',
+    kicker: 'SOCIEDAD',
+    kicker_color: '#cc0000',
+    size: 'small',
+    views: '2.1M',
+    comments: 633,
+    published_at: new Date(Date.now() - 10800000).toISOString(),
+  },
+];
+
+const secondaryArticles: Article[] = [
+  {
+    id: '4',
+    title: 'HOMBRE PONE ALARMA A LAS 6AM "PARA MADRUGAR" Y LA APAGA 11 VECES SIN REMORDIMIENTO',
+    excerpt: '',
+    image_url: 'https://images.pexels.com/photos/1028741/pexels-photo-1028741.jpeg?auto=compress&cs=tinysrgb&w=400',
+    kicker: 'TRAGEDIA',
+    kicker_color: '#cc0000',
+    size: 'small',
+    views: '980K',
+    comments: 289,
+    published_at: new Date(Date.now() - 14400000).toISOString(),
+  },
+  {
+    id: '5',
+    title: 'REUNION QUE PODRIA HABER SIDO UN EMAIL DURA 3 HORAS: HAY HERIDOS',
+    excerpt: '',
+    image_url: 'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=400',
+    kicker: 'LABORAL',
+    kicker_color: '#e65c00',
+    size: 'small',
+    views: '1.4M',
+    comments: 521,
+    published_at: new Date(Date.now() - 18000000).toISOString(),
+  },
+  {
+    id: '6',
+    title: 'PERSONA DICE "NO TENGO HAMBRE" Y DEVORA TODA LA NEVERA A LAS 2AM',
+    excerpt: '',
+    image_url: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
+    kicker: 'SALUD',
+    kicker_color: '#7acc00',
+    size: 'small',
+    views: '760K',
+    comments: 198,
+    published_at: new Date(Date.now() - 21600000).toISOString(),
+  },
+  {
+    id: '7',
+    title: 'HOMBRE ABRE NETFLIX A LAS 10PM Y PASA 2 HORAS BUSCANDO QUE VER SIN ENCONTRAR NADA',
+    excerpt: '',
+    image_url: 'https://images.pexels.com/photos/1457912/pexels-photo-1457912.jpeg?auto=compress&cs=tinysrgb&w=400',
+    kicker: 'CULTURA',
+    kicker_color: '#cc0000',
+    size: 'small',
+    views: '2.3M',
+    comments: 874,
+    published_at: new Date(Date.now() - 25200000).toISOString(),
+  },
+];
 
 function StoryCard({ story }: { story: Article }) {
   return (
@@ -81,27 +182,6 @@ function SmallStoryCard({ story }: { story: Article }) {
 }
 
 export default function NewsGrid() {
-  const [featured, setFeatured] = useState<Article[]>([]);
-  const [secondary, setSecondary] = useState<Article[]>([]);
-
-  useEffect(() => {
-    supabase
-      .from('articles')
-      .select('*')
-      .eq('active', true)
-      .eq('section', 'tragedias')
-      .order('sort_order')
-      .then(({ data }) => { if (data) setFeatured(data); });
-
-    supabase
-      .from('articles')
-      .select('*')
-      .eq('active', true)
-      .eq('section', 'catastrofes')
-      .order('sort_order')
-      .then(({ data }) => { if (data) setSecondary(data); });
-  }, []);
-
   return (
     <div className="flex flex-col gap-8">
       <div id="seccion-politica">
@@ -109,19 +189,17 @@ export default function NewsGrid() {
           <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>TRAGEDIAS DESTACADAS</span>
           <span className="breaking-badge blink text-xs">NUEVO</span>
         </div>
-        {featured.length >= 3 && (
-          <div className="grid gap-5" style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto' }}>
-            <div style={{ gridColumn: '1', gridRow: '1 / 3' }}>
-              <StoryCard story={featured[0]} />
-            </div>
-            <div style={{ gridColumn: '2', gridRow: '1' }}>
-              <StoryCard story={featured[1]} />
-            </div>
-            <div style={{ gridColumn: '2', gridRow: '2' }}>
-              <StoryCard story={featured[2]} />
-            </div>
+        <div className="grid gap-5" style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto' }}>
+          <div style={{ gridColumn: '1', gridRow: '1 / 3' }}>
+            <StoryCard story={featuredArticles[0]} />
           </div>
-        )}
+          <div style={{ gridColumn: '2', gridRow: '1' }}>
+            <StoryCard story={featuredArticles[1]} />
+          </div>
+          <div style={{ gridColumn: '2', gridRow: '2' }}>
+            <StoryCard story={featuredArticles[2]} />
+          </div>
+        </div>
       </div>
 
       <div id="seccion-catastrofes">
@@ -138,7 +216,7 @@ export default function NewsGrid() {
           </button>
         </div>
         <div className="flex flex-col">
-          {secondary.map((story) => (
+          {secondaryArticles.map((story) => (
             <SmallStoryCard key={story.id} story={story} />
           ))}
         </div>

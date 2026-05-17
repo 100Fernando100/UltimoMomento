@@ -1,28 +1,16 @@
-import { useEffect, useState } from 'react';
-import { supabase, TickerItem } from '../lib/supabase';
-
-const fallbackItems = [
-  'ULTIMO MOMENTO: Alguien en marketing uso la palabra "sinergia" de forma no ironica y fue elogiado por ello',
+const tickerItems = [
+  'ULTIMO MOMENTO: Hombre lleva 3 años diciendo "empiezo el lunes" y los lunes siguen existiendo',
   'ALERTA MAXIMA: El cafe de la oficina se acabo y nadie compro mas. Fuentes confirman "situacion insostenible"',
-  'BREAKING: Influencer publica foto comiendo ensalada. Expertos advierten: "esto no refleja la realidad"',
+  'BREAKING: Influencer publica foto comiendo ensalada. Expertos advierten que en su nevera solo hay champagne',
+  'EXCLUSIVO: Estudio revela que el 94% de las reuniones podrian haber sido un correo. El 6% restante tampoco era necesario',
+  'URGENTE: Vecino pone musica a todo volumen a las 11pm. Victimas reportan haber escuchado "Macarena" en bucle',
+  'ALERTA: Persona llega puntual a una cita y no sabe que hacer con el tiempo que le sobra. Especialistas preocupados',
+  'NUEVO: Hombre convencido de que el semaforo cambia mas rapido si presiona el boton repetidamente. La ciencia no lo respalda',
+  'ULTIMA HORA: Trabajador remoto confiesa que en las videollamadas lleva traje arriba y pijama abajo desde 2020',
 ];
 
 export default function NewsTicker() {
-  const [items, setItems] = useState<TickerItem[]>([]);
-
-  useEffect(() => {
-    supabase
-      .from('ticker_items')
-      .select('*')
-      .eq('active', true)
-      .order('sort_order')
-      .then(({ data }) => {
-        if (data && data.length > 0) setItems(data);
-      });
-  }, []);
-
-  const texts = items.length > 0 ? items.map(i => i.text) : fallbackItems;
-  const fullText = texts.join('   |||   ');
+  const fullText = tickerItems.join('   |||   ');
 
   return (
     <div className="bg-black border-b border-red-900 flex items-stretch overflow-hidden" style={{ height: '36px' }}>
