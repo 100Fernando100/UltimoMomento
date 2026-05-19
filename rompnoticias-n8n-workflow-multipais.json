@@ -1,0 +1,233 @@
+{
+  "name": "RompeNoticias — Multipaís (AR/MX/ES/CO/CL)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "hours", "hoursInterval": 2 }] }
+      },
+      "id": "schedule-trigger",
+      "name": "Cada 2 horas",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 400]
+    },
+    {
+      "parameters": { "url": "https://www.infobae.com/feeds/rss/" },
+      "id": "rss-ar",
+      "name": "RSS — AR",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 100]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [{ "id": "c-ar", "name": "country", "value": "AR", "type": "string" }] },
+        "options": { "includeOtherFields": true }
+      },
+      "id": "set-ar",
+      "name": "Set country AR",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 100]
+    },
+    {
+      "parameters": { "url": "https://www.infobae.com/america/mexico/feeds/rss/" },
+      "id": "rss-mx",
+      "name": "RSS — MX",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 250]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [{ "id": "c-mx", "name": "country", "value": "MX", "type": "string" }] },
+        "options": { "includeOtherFields": true }
+      },
+      "id": "set-mx",
+      "name": "Set country MX",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 250]
+    },
+    {
+      "parameters": { "url": "https://www.infobae.com/america/feeds/rss/" },
+      "id": "rss-es",
+      "name": "RSS — ES",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 400]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [{ "id": "c-es", "name": "country", "value": "ES", "type": "string" }] },
+        "options": { "includeOtherFields": true }
+      },
+      "id": "set-es",
+      "name": "Set country ES",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 400]
+    },
+    {
+      "parameters": { "url": "https://www.infobae.com/america/colombia/feeds/rss/" },
+      "id": "rss-co",
+      "name": "RSS — CO",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 550]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [{ "id": "c-co", "name": "country", "value": "CO", "type": "string" }] },
+        "options": { "includeOtherFields": true }
+      },
+      "id": "set-co",
+      "name": "Set country CO",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 550]
+    },
+    {
+      "parameters": { "url": "https://www.infobae.com/america/chile/feeds/rss/" },
+      "id": "rss-cl",
+      "name": "RSS — CL",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [200, 700]
+    },
+    {
+      "parameters": {
+        "assignments": { "assignments": [{ "id": "c-cl", "name": "country", "value": "CL", "type": "string" }] },
+        "options": { "includeOtherFields": true }
+      },
+      "id": "set-cl",
+      "name": "Set country CL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [420, 700]
+    },
+    {
+      "parameters": { "mode": "combine", "combinationMode": "mergeByPosition", "options": {} },
+      "id": "merge-all",
+      "name": "Merge feeds",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [700, 400]
+    },
+    {
+      "parameters": { "batchSize": 1, "options": {} },
+      "id": "loop",
+      "name": "Loop one by one",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build prompt segun el pais (AR/MX/ES/CO/CL)\n// Perfiles inline equivalentes a src/lib/agents/countries/*.ts\nconst profiles = {\n  AR: {\n    code: 'AR', locale: 'es-AR', name: 'Argentina',\n    tone: 'Apocaliptico, dramatico, sarcastico, con humor negro porteno.',\n    voice: 'Voseo argentino. Cronista de policial + relator de futbol. Frases cortas y golpes de efecto.',\n    idioms: ['che', 'mira vos', 'se pudrio todo', 'tremendo quilombo', 'al horno', 'no da para mas'],\n    vocab: { 'autobus': 'colectivo', 'trabajo': 'laburo', 'dinero': 'guita', 'problema': 'quilombo' },\n    sensitive: ['Malvinas y caidos: no se ironiza', 'Dictadura 1976-1983 y desaparecidos: nada de humor', 'AMIA y atentados: respeto a victimas'],\n    rules: ['Usar voseo (tenes, sabes, mira, vos)', '1-2 modismos por nota', 'Evitar mexicanismos y espanolismos'],\n    kickers: ['TREMENDO QUILOMBO', 'SE PUDRIO TODO', 'BOMBA EN CASA ROSADA', 'EXCLUSIVO', 'ESCANDALO NACIONAL']\n  },\n  MX: {\n    code: 'MX', locale: 'es-MX', name: 'Mexico',\n    tone: 'Dramatico y sensacionalista al estilo nota roja mexicana, con sarcasmo y picardia.',\n    voice: 'Tuteo mexicano. Locutor de noticiero que se cree serio mientras todo se cae.',\n    idioms: ['orale', 'no manches', 'esta canon', 'se armo la gorda', 'que oso', 'esta del nabo'],\n    vocab: { 'amigo': 'cuate', 'trabajo': 'chamba', 'dinero': 'lana', 'fiesta': 'pachanga' },\n    sensitive: ['Victimas del narco y desapariciones: no se ironiza', 'Feminicidios: jamas humor sobre victimas', 'Migrantes: no humor xenofobo'],\n    rules: ['Tuteo mexicano (tu, tienes, sabes)', '1-2 mexicanismos por nota sin saturar de albur', 'Evitar argentinismos y espanolismos'],\n    kickers: ['SE ARMO LA GORDA', 'NO MANCHES', 'QUE OSO', 'EXCLUSIVA', 'ESCANDALO NACIONAL']\n  },\n  ES: {\n    code: 'ES', locale: 'es-ES', name: 'Espana',\n    tone: 'Sarcastico, mordaz, ironico al estilo tertulia espanola.',\n    voice: 'Tuteo peninsular con vosotros. Tertuliano cabreado que ha visto demasiado. Retranca.',\n    idioms: ['tio', 'vale', 'que fuerte', 'flipo en colores', 'menudo follon', 'es la leche'],\n    vocab: { 'auto': 'coche', 'computadora': 'ordenador', 'celular': 'movil', 'trabajo': 'curro' },\n    sensitive: ['Victimas de ETA y 11-M: jamas humor', 'Guerra Civil y franquismo: respeto a victimas', 'Pateras y migrantes: no humor sobre ahogados'],\n    rules: ['Pretérito perfecto compuesto cuando suene natural (he hecho)', 'Lexico peninsular', 'Evitar argentinismos y mexicanismos'],\n    kickers: ['MENUDO FOLLON', 'ESTO ES LA REPERA', 'EXCLUSIVA', 'BOMBAZO', 'ESCANDALO NACIONAL']\n  },\n  CO: {\n    code: 'CO', locale: 'es-CO', name: 'Colombia',\n    tone: 'Dramatico y exagerado al estilo amarillista bogotano, con humor paisa y caribeno.',\n    voice: 'Usted bogotano + tuteo costeno segun contexto. Locutor que se indigna y remata con chiste.',\n    idioms: ['parce', 'que pena con sumerce', 'no joda', 'que chimba', 'bacano', 'una mamera'],\n    vocab: { 'amigo': 'parce', 'trabajo': 'camello', 'dinero': 'plata', 'fiesta': 'rumba' },\n    sensitive: ['Victimas del conflicto armado, FARC, ELN, paras: nada de humor', 'Falsos positivos: respeto a familias', 'No glorificar narcotrafico ni Pablo Escobar'],\n    rules: ['Alternar tuteo y sumerce segun tono', 'Lexico colombiano (plata, parce, camello)', 'Evitar argentinismos, mexicanismos, espanolismos'],\n    kickers: ['NO JODA', 'SE ARMO LA GORDA', 'EXCLUSIVA', 'BOMBAZO', 'ESCANDALO NACIONAL']\n  },\n  CL: {\n    code: 'CL', locale: 'es-CL', name: 'Chile',\n    tone: 'Sarcastico, ironico, humor seco chileno con resignacion pais.',\n    voice: 'Tuteo chileno con uso frecuente de po. Locutor que lo ha visto todo y suelta perlas.',\n    idioms: ['po', 'cachai', 'la raja', 'fome', 'bacan', 'al tiro', 'se armo la grande'],\n    vocab: { 'amigo': 'compadre', 'trabajo': 'pega', 'dinero': 'plata', 'fiesta': 'carrete' },\n    sensitive: ['Dictadura Pinochet y DDHH: no humor con detenidos desaparecidos', 'Estallido 2019 y lesiones oculares: respeto', 'Pueblo mapuche: nada racista'],\n    rules: ['Tuteo chileno con po ocasional (si po, ya po)', 'Lexico chileno (pega, plata, carrete, cachai)', 'Evitar argentinismos, mexicanismos y espanolismos'],\n    kickers: ['SE ARMO LA GRANDE', 'QUE LATA', 'EXCLUSIVA', 'BOMBAZO', 'ESCANDALO NACIONAL']\n  }\n};\n\nfunction buildSystem(p) {\n  const idioms = p.idioms.map(i => '- \"' + i + '\"').join('\\n');\n  const vocab = Object.entries(p.vocab).map(([k,v]) => '- ' + k + ' -> ' + v).join('\\n');\n  const sensitive = p.sensitive.map(s => '- ' + s).join('\\n');\n  const rules = p.rules.map(r => '- ' + r).join('\\n');\n  const kickers = p.kickers.map(k => '\"' + k + '\"').join(', ');\n  return 'Eres el redactor satirico de RompeNoticias para ' + p.name + ' (' + p.locale + ').\\n\\n' +\n    'TONO: ' + p.tone + '\\nVOZ: ' + p.voice + '\\n\\n' +\n    'MODISMOS (1-2 por nota):\\n' + idioms + '\\n\\n' +\n    'VOCABULARIO LOCAL:\\n' + vocab + '\\n\\n' +\n    'REGLAS:\\n' + rules + '\\n\\n' +\n    'TEMAS SENSIBLES (no se ironiza con victimas; satira al poder si):\\n' + sensitive + '\\n\\n' +\n    'KICKERS TIPICOS: ' + kickers;\n}\n\nconst item = $input.first().json;\nconst country = (item.country || 'AR').toUpperCase();\nconst profile = profiles[country] || profiles.AR;\n\nconst title = item.title || '';\nconst description = item.contentSnippet || item.summary || item.description || '';\nconst link = item.link || item.guid || '';\nconst imageUrl = item.enclosure?.url || item['media:content']?.['$']?.url || item.image || '';\n\nconst prompt = buildSystem(profile) + '\\n\\n' +\n  'NOTICIA ORIGINAL:\\nTitulo: ' + title + '\\nResumen: ' + description + '\\nPais: ' + profile.code + '\\nURL: ' + link + '\\n\\n' +\n  'TAREA:\\n1. Reescribe el titulo en clave satirica con tono local de ' + profile.name + '.\\n' +\n  '2. Redacta un excerpt de 2-3 oraciones en el mismo tono, basado en la noticia real.\\n' +\n  '3. Elige un kicker breve en MAYUSCULAS.\\n' +\n  '4. Devuelve UNICAMENTE un JSON valido (sin markdown) con este formato:\\n' +\n  '{\\n  \"title\": \"TITULAR SATIRICO\",\\n  \"excerpt\": \"Bajada de 2-3 oraciones.\",\\n  \"kicker\": \"KICKER\",\\n  \"kicker_color\": \"#cc0000\",\\n  \"size\": \"medium\",\\n  \"section\": \"tragedias\",\\n  \"views\": \"892K\",\\n  \"country\": \"' + profile.code + '\",\\n  \"locale\": \"' + profile.locale + '\"\\n}\\n\\n' +\n  'Restricciones: kicker_color in [#cc0000, #ff6600, #e65c00]; size in [large, medium, small]; section in [tragedias, catastrofes, exclusivos, virales, escandalos].';\n\nreturn [{\n  json: {\n    prompt,\n    source_url: link,\n    image_url: imageUrl,\n    country: profile.code,\n    locale: profile.locale,\n    original_title: title\n  }\n}];"
+      },
+      "id": "build-prompt",
+      "name": "Build prompt by country",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "model", "value": "claude-haiku-4-5-20251001" },
+            { "name": "max_tokens", "value": "1024" },
+            { "name": "messages", "value": "=[{\"role\": \"user\", \"content\": {{ $json.prompt }}}]" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "claude-redactor",
+      "name": "Claude — Redactor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1360, 400],
+      "credentials": { "httpHeaderAuth": { "name": "Anthropic API Key" } }
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst prev = $('Build prompt by country').first().json;\n\nlet text = '';\ntry { text = response.content[0].text; } catch(e) { return []; }\n\nlet parsed;\ntry {\n  const m = text.match(/\\{[\\s\\S]*\\}/);\n  if (!m) return [];\n  parsed = JSON.parse(m[0]);\n} catch(e) { return []; }\n\nconst validSizes = ['large', 'medium', 'small'];\nconst validSections = ['tragedias', 'catastrofes', 'exclusivos', 'virales', 'escandalos'];\nconst validColors = ['#cc0000', '#ff6600', '#e65c00'];\nconst validCountries = ['AR', 'MX', 'ES', 'CO', 'CL'];\n\nif (!parsed.title || !parsed.excerpt || !parsed.kicker) return [];\n\nconst country = validCountries.includes(parsed.country) ? parsed.country : (prev.country || 'AR');\n\nreturn [{\n  json: {\n    title: String(parsed.title).substring(0, 300),\n    excerpt: String(parsed.excerpt).substring(0, 600),\n    image_url: prev.image_url || '',\n    kicker: String(parsed.kicker).toUpperCase().substring(0, 50),\n    kicker_color: validColors.includes(parsed.kicker_color) ? parsed.kicker_color : '#cc0000',\n    size: validSizes.includes(parsed.size) ? parsed.size : 'medium',\n    section: validSections.includes(parsed.section) ? parsed.section : 'tragedias',\n    views: String(parsed.views || '0'),\n    source_url: prev.source_url || '',\n    country,\n    locale: parsed.locale || prev.locale || 'es-AR',\n    active: true,\n    comments: 0,\n    featured: false,\n    sort_order: 0\n  }\n}];"
+      },
+      "id": "parse-validate",
+      "name": "Parse & validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1580, 400]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "tableId": "articles",
+        "dataToSend": "defineBelow",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "title", "fieldValue": "={{ $json.title }}" },
+            { "fieldId": "excerpt", "fieldValue": "={{ $json.excerpt }}" },
+            { "fieldId": "image_url", "fieldValue": "={{ $json.image_url }}" },
+            { "fieldId": "kicker", "fieldValue": "={{ $json.kicker }}" },
+            { "fieldId": "kicker_color", "fieldValue": "={{ $json.kicker_color }}" },
+            { "fieldId": "size", "fieldValue": "={{ $json.size }}" },
+            { "fieldId": "section", "fieldValue": "={{ $json.section }}" },
+            { "fieldId": "views", "fieldValue": "={{ $json.views }}" },
+            { "fieldId": "source_url", "fieldValue": "={{ $json.source_url }}" },
+            { "fieldId": "country", "fieldValue": "={{ $json.country }}" },
+            { "fieldId": "active", "fieldValue": "={{ $json.active }}" },
+            { "fieldId": "comments", "fieldValue": "={{ $json.comments }}" },
+            { "fieldId": "featured", "fieldValue": "={{ $json.featured }}" },
+            { "fieldId": "sort_order", "fieldValue": "={{ $json.sort_order }}" }
+          ]
+        }
+      },
+      "id": "supabase-insert",
+      "name": "Supabase — insert article",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1800, 400],
+      "credentials": { "supabaseApi": { "name": "Supabase RompeNoticias" } }
+    }
+  ],
+  "connections": {
+    "Cada 2 horas": {
+      "main": [[
+        { "node": "RSS — AR", "type": "main", "index": 0 },
+        { "node": "RSS — MX", "type": "main", "index": 0 },
+        { "node": "RSS — ES", "type": "main", "index": 0 },
+        { "node": "RSS — CO", "type": "main", "index": 0 },
+        { "node": "RSS — CL", "type": "main", "index": 0 }
+      ]]
+    },
+    "RSS — AR": { "main": [[{ "node": "Set country AR", "type": "main", "index": 0 }]] },
+    "RSS — MX": { "main": [[{ "node": "Set country MX", "type": "main", "index": 0 }]] },
+    "RSS — ES": { "main": [[{ "node": "Set country ES", "type": "main", "index": 0 }]] },
+    "RSS — CO": { "main": [[{ "node": "Set country CO", "type": "main", "index": 0 }]] },
+    "RSS — CL": { "main": [[{ "node": "Set country CL", "type": "main", "index": 0 }]] },
+    "Set country AR": { "main": [[{ "node": "Merge feeds", "type": "main", "index": 0 }]] },
+    "Set country MX": { "main": [[{ "node": "Merge feeds", "type": "main", "index": 0 }]] },
+    "Set country ES": { "main": [[{ "node": "Merge feeds", "type": "main", "index": 0 }]] },
+    "Set country CO": { "main": [[{ "node": "Merge feeds", "type": "main", "index": 0 }]] },
+    "Set country CL": { "main": [[{ "node": "Merge feeds", "type": "main", "index": 0 }]] },
+    "Merge feeds": { "main": [[{ "node": "Loop one by one", "type": "main", "index": 0 }]] },
+    "Loop one by one": { "main": [[{ "node": "Build prompt by country", "type": "main", "index": 0 }]] },
+    "Build prompt by country": { "main": [[{ "node": "Claude — Redactor", "type": "main", "index": 0 }]] },
+    "Claude — Redactor": { "main": [[{ "node": "Parse & validate", "type": "main", "index": 0 }]] },
+    "Parse & validate": { "main": [[{ "node": "Supabase — insert article", "type": "main", "index": 0 }]] }
+  }
+}

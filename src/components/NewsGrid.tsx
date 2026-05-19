@@ -1,107 +1,9 @@
 import { Eye, MessageSquare, Clock } from 'lucide-react';
-
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  image_url: string;
-  kicker: string;
-  kicker_color: string;
-  size: 'large' | 'small';
-  views: string;
-  comments: number;
-  published_at: string;
-}
-
-const featuredArticles: Article[] = [
-  {
-    id: '1',
-    title: 'HOMBRE DESCUBRE QUE LLEVAR PARAGUAS GARANTIZA QUE NO LLUEVE: METEOROLOGOS ATERRADOS',
-    excerpt: 'El fenomeno, conocido en la ciencia como "efecto paraguas", ha desafiado todos los modelos climaticos conocidos. La ONU convoca reunion de emergencia.',
-    image_url: 'https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=800',
-    kicker: 'CIENCIA',
-    kicker_color: '#cc0000',
-    size: 'large',
-    views: '3.2M',
-    comments: 847,
-    published_at: new Date(Date.now() - 3600000).toISOString(),
-  },
-  {
-    id: '2',
-    title: 'EXPERTOS CONFIRMAN QUE EL BOTON "CERRAR PUERTAS" DEL ASCENSOR NO HACE NADA',
-    excerpt: 'Estudio de 20 años revela que solo existe para dar la ilusion de control. Los fabricantes se niegan a comentar.',
-    image_url: 'https://images.pexels.com/photos/1797428/pexels-photo-1797428.jpeg?auto=compress&cs=tinysrgb&w=800',
-    kicker: 'INVESTIGACION',
-    kicker_color: '#e65c00',
-    size: 'small',
-    views: '1.8M',
-    comments: 412,
-    published_at: new Date(Date.now() - 7200000).toISOString(),
-  },
-  {
-    id: '3',
-    title: 'MUJER DICE "LLEGARE EN 5 MINUTOS" POR VIGESIMA VEZ CONSECUTIVA',
-    excerpt: 'Testigos reportan que los 5 minutos llevan acumulando desde el martes. Familiares piden una investigacion.',
-    image_url: 'https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=800',
-    kicker: 'SOCIEDAD',
-    kicker_color: '#cc0000',
-    size: 'small',
-    views: '2.1M',
-    comments: 633,
-    published_at: new Date(Date.now() - 10800000).toISOString(),
-  },
-];
-
-const secondaryArticles: Article[] = [
-  {
-    id: '4',
-    title: 'HOMBRE PONE ALARMA A LAS 6AM "PARA MADRUGAR" Y LA APAGA 11 VECES SIN REMORDIMIENTO',
-    excerpt: '',
-    image_url: 'https://images.pexels.com/photos/1028741/pexels-photo-1028741.jpeg?auto=compress&cs=tinysrgb&w=400',
-    kicker: 'TRAGEDIA',
-    kicker_color: '#cc0000',
-    size: 'small',
-    views: '980K',
-    comments: 289,
-    published_at: new Date(Date.now() - 14400000).toISOString(),
-  },
-  {
-    id: '5',
-    title: 'REUNION QUE PODRIA HABER SIDO UN EMAIL DURA 3 HORAS: HAY HERIDOS',
-    excerpt: '',
-    image_url: 'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=400',
-    kicker: 'LABORAL',
-    kicker_color: '#e65c00',
-    size: 'small',
-    views: '1.4M',
-    comments: 521,
-    published_at: new Date(Date.now() - 18000000).toISOString(),
-  },
-  {
-    id: '6',
-    title: 'PERSONA DICE "NO TENGO HAMBRE" Y DEVORA TODA LA NEVERA A LAS 2AM',
-    excerpt: '',
-    image_url: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400',
-    kicker: 'SALUD',
-    kicker_color: '#7acc00',
-    size: 'small',
-    views: '760K',
-    comments: 198,
-    published_at: new Date(Date.now() - 21600000).toISOString(),
-  },
-  {
-    id: '7',
-    title: 'HOMBRE ABRE NETFLIX A LAS 10PM Y PASA 2 HORAS BUSCANDO QUE VER SIN ENCONTRAR NADA',
-    excerpt: '',
-    image_url: 'https://images.pexels.com/photos/1457912/pexels-photo-1457912.jpeg?auto=compress&cs=tinysrgb&w=400',
-    kicker: 'CULTURA',
-    kicker_color: '#cc0000',
-    size: 'small',
-    views: '2.3M',
-    comments: 874,
-    published_at: new Date(Date.now() - 25200000).toISOString(),
-  },
-];
+import { useEffect, useState } from 'react';
+import { useCountry } from '../lib/useCountry';
+import { Article, selectArticlesForCountry, supabaseConfigured } from '../lib/supabase';
+import { filterArticlesForCountry } from '../lib/editorial';
+import { MOCK_ARTICLES } from '../lib/mockArticles';
 
 function StoryCard({ story }: { story: Article }) {
   return (
@@ -182,8 +84,55 @@ function SmallStoryCard({ story }: { story: Article }) {
 }
 
 export default function NewsGrid() {
+  const { country } = useCountry();
+  const [articles, setArticles] = useState<Article[]>(() => filterArticlesForCountry(MOCK_ARTICLES, country));
+  const [usingFallback, setUsingFallback] = useState<boolean>(!supabaseConfigured);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      if (!supabaseConfigured) {
+        setArticles(filterArticlesForCountry(MOCK_ARTICLES, country));
+        setUsingFallback(true);
+        return;
+      }
+      const data = await selectArticlesForCountry(country, { limit: 50 });
+      if (cancelled) return;
+      if (data && data.length > 0) {
+        setArticles(data);
+        setUsingFallback(false);
+      } else {
+        // Fallback no destructivo si no hay datos en DB o falla la query.
+        setArticles(filterArticlesForCountry(MOCK_ARTICLES, country));
+        setUsingFallback(true);
+      }
+    }
+    load();
+    return () => { cancelled = true; };
+  }, [country]);
+
+  // Asegura tener placeholders aunque la lista venga corta.
+  const featured = articles.filter(a => a.size === 'large').concat(
+    articles.filter(a => a.size !== 'large'),
+  );
+  const featuredArticles = featured.slice(0, 3);
+  const secondaryArticles = featured.slice(3, 7);
+
+  if (featuredArticles.length === 0) {
+    return (
+      <div className="p-6 text-center font-oswald" style={{ color: '#888' }}>
+        No hay noticias para esta edicion todavia.
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
+      {usingFallback && (
+        <div className="px-3 py-2 font-oswald text-xs uppercase tracking-wider" style={{ background: '#1a1a1a', color: '#888', borderLeft: '3px solid #cc0000' }}>
+          Modo demo: mostrando contenido editorial de muestra ({country}).
+        </div>
+      )}
       <div id="seccion-politica">
         <div className="flex items-center gap-3 mb-5 pb-3" style={{ borderBottom: '2px solid #cc0000' }}>
           <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>TRAGEDIAS DESTACADAS</span>
@@ -193,34 +142,40 @@ export default function NewsGrid() {
           <div style={{ gridColumn: '1', gridRow: '1 / 3' }}>
             <StoryCard story={featuredArticles[0]} />
           </div>
-          <div style={{ gridColumn: '2', gridRow: '1' }}>
-            <StoryCard story={featuredArticles[1]} />
-          </div>
-          <div style={{ gridColumn: '2', gridRow: '2' }}>
-            <StoryCard story={featuredArticles[2]} />
-          </div>
+          {featuredArticles[1] && (
+            <div style={{ gridColumn: '2', gridRow: '1' }}>
+              <StoryCard story={featuredArticles[1]} />
+            </div>
+          )}
+          {featuredArticles[2] && (
+            <div style={{ gridColumn: '2', gridRow: '2' }}>
+              <StoryCard story={featuredArticles[2]} />
+            </div>
+          )}
         </div>
       </div>
 
-      <div id="seccion-catastrofes">
-        <div
-          className="flex items-center justify-between mb-4 pb-3"
-          style={{ borderBottom: '2px solid #e65c00' }}
-        >
-          <div className="flex items-center gap-3">
-            <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>MAS CATASTROFES</span>
-            <span className="exclusive-badge text-xs">HOY</span>
+      {secondaryArticles.length > 0 && (
+        <div id="seccion-catastrofes">
+          <div
+            className="flex items-center justify-between mb-4 pb-3"
+            style={{ borderBottom: '2px solid #e65c00' }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="font-oswald font-700 uppercase tracking-wider text-sm" style={{ color: '#e0e0e0' }}>MAS CATASTROFES</span>
+              <span className="exclusive-badge text-xs">HOY</span>
+            </div>
+            <button className="font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-400" style={{ color: '#777' }}>
+              Ver todas las desgracias
+            </button>
           </div>
-          <button className="font-oswald text-xs uppercase tracking-wider transition-colors hover:text-red-400" style={{ color: '#777' }}>
-            Ver todas las desgracias
-          </button>
+          <div className="flex flex-col">
+            {secondaryArticles.map((story) => (
+              <SmallStoryCard key={story.id} story={story} />
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col">
-          {secondaryArticles.map((story) => (
-            <SmallStoryCard key={story.id} story={story} />
-          ))}
-        </div>
-      </div>
+      )}
 
       <div className="p-4" style={{ background: '#111', border: '2px solid #cc0000' }}>
         <div className="flex items-center gap-2 mb-3">

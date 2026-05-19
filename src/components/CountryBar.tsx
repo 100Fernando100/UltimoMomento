@@ -1,5 +1,6 @@
 import { Globe, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { useCountry } from '../lib/useCountry';
 
 const countries = [
   { name: 'América', domain: 'america', flag: '🌎' },
@@ -27,7 +28,7 @@ function getCountryUrl(domain: string) {
 }
 
 export default function CountryBar() {
-  const [active, setActive] = useState('america');
+  const { domain: active, setDomain } = useCountry();
   const [showAll, setShowAll] = useState(false);
 
   const visibleCountries = showAll ? countries : countries.slice(0, 9);
@@ -47,7 +48,7 @@ export default function CountryBar() {
             <a
               key={country.domain}
               href={getCountryUrl(country.domain)}
-              onClick={(e) => { e.preventDefault(); setActive(country.domain); }}
+              onClick={(e) => { e.preventDefault(); setDomain(country.domain); }}
               className="flex items-center gap-1.5 px-3 py-2.5 flex-shrink-0 transition-all no-underline"
               style={{
                 borderBottom: active === country.domain ? '2px solid #cc0000' : '2px solid transparent',

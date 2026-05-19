@@ -13,9 +13,11 @@ import YouTubeColumn from './components/YouTubeColumn';
 import IdeologySection from './components/IdeologySection';
 import PopupModal from './components/PopupModal';
 import Footer from './components/Footer';
+import { CountryProvider } from './lib/countryContext';
 
 function App() {
   return (
+    <CountryProvider>
     <div className="min-h-screen noise-bg" style={{ background: '#0a0a0a' }}>
       <CountryBar />
       <Header />
@@ -49,6 +51,7 @@ function App() {
       <Footer />
       <PopupModal />
     </div>
+    </CountryProvider>
   );
 }
 
