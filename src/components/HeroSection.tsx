@@ -1,6 +1,9 @@
 import { Eye, Clock, Share2 } from 'lucide-react';
+import ScopeBadge from './ScopeBadge';
+import { useCountry } from '../lib/useCountry';
 
 export default function HeroSection() {
+  const { country } = useCountry();
   return (
     <section id="seccion-economia" className="relative w-full scanline-overlay" style={{ minHeight: '520px' }}>
       <img
@@ -11,10 +14,17 @@ export default function HeroSection() {
       />
       <div className="hero-gradient absolute inset-0" />
 
-      <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
+      <div className="absolute top-4 left-4 flex gap-2 flex-wrap items-center">
+        <ScopeBadge article={{ distribution_scope: 'global', source_country: 'WORLD' }} />
         <span className="breaking-badge pulse-red">COLAPSO TOTAL</span>
         <span className="exclusive-badge">EXCLUSIVO</span>
         <span className="breaking-badge blink">ALERTA MAXIMA</span>
+        <span
+          className="font-oswald uppercase"
+          style={{ background: '#0f0f0f', color: '#bbb', border: '1px solid #2a2a2a', fontSize: '0.6rem', letterSpacing: '0.06em', padding: '2px 6px' }}
+        >
+          Edicion {country}
+        </span>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">

@@ -4,6 +4,7 @@ import { useCountry } from '../lib/useCountry';
 import { Article, selectArticlesForCountry, supabaseConfigured } from '../lib/supabase';
 import { filterArticlesForCountry } from '../lib/editorial';
 import { MOCK_ARTICLES } from '../lib/mockArticles';
+import ScopeBadge from './ScopeBadge';
 
 function StoryCard({ story }: { story: Article }) {
   return (
@@ -19,6 +20,9 @@ function StoryCard({ story }: { story: Article }) {
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)' }}
         />
+        <div className="absolute top-2 left-2">
+          <ScopeBadge article={story} />
+        </div>
       </div>
       <div className="pt-3 pb-2">
         <span className="exclusive-badge text-xs" style={{ background: story.kicker_color }}>
@@ -71,6 +75,7 @@ function SmallStoryCard({ story }: { story: Article }) {
         </span>
       </div>
       <div className="flex-1">
+        <div className="mb-1"><ScopeBadge article={story} compact /></div>
         <h4 className="font-oswald font-600 text-xs leading-tight group-hover:text-red-400 transition-colors" style={{ fontSize: '0.78rem', lineHeight: 1.3, color: '#e0e0e0' }}>
           {story.title}
         </h4>
@@ -126,11 +131,17 @@ export default function NewsGrid() {
     );
   }
 
+  const globalCount = articles.filter(a => (a.distribution_scope || 'local').toLowerCase() === 'global').length;
+  const localCount = articles.length - globalCount;
+
   return (
     <div className="flex flex-col gap-8">
       {usingFallback && (
-        <div className="px-3 py-2 font-oswald text-xs uppercase tracking-wider" style={{ background: '#1a1a1a', color: '#888', borderLeft: '3px solid #cc0000' }}>
-          Modo demo: mostrando contenido editorial de muestra ({country}).
+        <div className="px-3 py-2 font-oswald text-xs uppercase tracking-wider flex flex-wrap items-center gap-3" style={{ background: '#1a1a1a', color: '#888', borderLeft: '3px solid #cc0000' }}>
+          <span>Modo demo · edicion <span style={{ color: '#fff', fontWeight: 700 }}>{country}</span></span>
+          <span style={{ background: '#cc0000', color: '#fff', padding: '1px 6px', fontWeight: 700 }}>GLOBAL × {globalCount}</span>
+          <span style={{ background: '#1f6feb', color: '#fff', padding: '1px 6px', fontWeight: 700 }}>LOCAL × {localCount}</span>
+          <span style={{ color: '#666' }}>Datos de ejemplo · temas reales, redaccion satirica</span>
         </div>
       )}
       <div id="seccion-politica">
