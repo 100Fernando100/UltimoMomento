@@ -18,7 +18,7 @@ import { CountryProvider } from './lib/countryContext';
 function App() {
   return (
     <CountryProvider>
-    <div className="min-h-screen noise-bg" style={{ background: '#0a0a0a' }}>
+    <div className="min-h-screen noise-bg" style={{ background: 'transparent' }}>
       <CountryBar />
       <Header />
       <EditorialBanner />
@@ -39,7 +39,7 @@ function App() {
           </div>
         </div>
 
-        <div id="seccion-mundial" className="mt-12 pt-8" style={{ borderTop: '1px solid #1a1a1a' }}>
+        <div id="seccion-mundial" className="mt-12 pt-8" style={{ borderTop: '1px solid #2a2a32' }}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div id="seccion-espectaculos"><WorldCupColumn /></div>
             <div id="seccion-escandalo"><AskTheSpecialist /></div>

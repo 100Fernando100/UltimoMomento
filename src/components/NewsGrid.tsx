@@ -18,7 +18,7 @@ function StoryCard({ story }: { story: Article }) {
         />
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)' }}
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 65%)' }}
         />
         <div className="absolute top-2 left-2">
           <ScopeBadge article={story} />
@@ -60,7 +60,7 @@ function StoryCard({ story }: { story: Article }) {
 
 function SmallStoryCard({ story }: { story: Article }) {
   return (
-    <div className="news-card flex gap-3 py-3 cursor-pointer group" style={{ borderBottom: '1px solid #1a1a1a' }}>
+    <div className="news-card flex gap-3 py-3 cursor-pointer group" style={{ borderBottom: '1px solid #2a2a32' }}>
       <div className="flex-shrink-0 relative overflow-hidden" style={{ width: 90, height: 70 }}>
         <img
           src={story.image_url}
@@ -137,7 +137,7 @@ export default function NewsGrid() {
   return (
     <div className="flex flex-col gap-8">
       {usingFallback && (
-        <div className="px-3 py-2 font-oswald text-xs uppercase tracking-wider flex flex-wrap items-center gap-3" style={{ background: '#1a1a1a', color: '#888', borderLeft: '3px solid #cc0000' }}>
+        <div className="px-3 py-2 font-oswald text-xs uppercase tracking-wider flex flex-wrap items-center gap-3" style={{ background: '#23232a', color: '#cfcfd6', borderLeft: '3px solid #cc0000' }}>
           <span>Modo demo · edicion <span style={{ color: '#fff', fontWeight: 700 }}>{country}</span></span>
           <span style={{ background: '#cc0000', color: '#fff', padding: '1px 6px', fontWeight: 700 }}>GLOBAL × {globalCount}</span>
           <span style={{ background: '#1f6feb', color: '#fff', padding: '1px 6px', fontWeight: 700 }}>LOCAL × {localCount}</span>
@@ -188,7 +188,7 @@ export default function NewsGrid() {
         </div>
       )}
 
-      <div className="p-4" style={{ background: '#111', border: '2px solid #cc0000' }}>
+      <div className="p-4" style={{ background: '#1d1d22', border: '2px solid #cc0000' }}>
         <div className="flex items-center gap-2 mb-3">
           <span className="breaking-badge pulse-red text-xs">EXCLUSIVO</span>
           <span className="font-oswald text-xs uppercase tracking-wider" style={{ color: '#888' }}>Investigacion especial de 18 meses</span>

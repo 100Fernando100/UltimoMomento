@@ -16,8 +16,8 @@ const navItems = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50" style={{ background: '#0a0a0a' }}>
-      <div style={{ borderBottom: '3px solid #cc0000', background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%)' }}>
+    <header className="sticky top-0 z-50" style={{ background: '#111114' }}>
+      <div style={{ borderBottom: '3px solid #cc0000', background: 'linear-gradient(135deg, #15151a 0%, #2a0808 100%)' }}>
         <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="pulse-red p-1.5 rounded">
@@ -54,7 +54,7 @@ export default function Header() {
         </div>
       </div>
 
-      <nav style={{ background: '#1a1a1a', borderBottom: '1px solid #333' }}>
+      <nav style={{ background: '#1f1f25', borderBottom: '1px solid #3a3a44' }}>
         <div className="max-w-screen-2xl mx-auto px-4 flex items-center gap-1 overflow-x-auto">
           {navItems.map(({ label, anchor }, i) => {
             const isMundial = label === 'MUNDIAL 2026';

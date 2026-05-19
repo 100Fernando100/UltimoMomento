@@ -34,7 +34,7 @@ export default function CountryBar() {
   const visibleCountries = showAll ? countries : countries.slice(0, 9);
 
   return (
-    <div style={{ background: '#050505', borderBottom: '1px solid #1a1a1a' }}>
+    <div style={{ background: '#0e0e12', borderBottom: '1px solid #2a2a32' }}>
       <div className="max-w-screen-2xl mx-auto px-4">
         <div className="flex items-center gap-0 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           <div className="flex items-center gap-1.5 flex-shrink-0 pr-4 mr-3" style={{ borderRight: '1px solid #222' }}>
