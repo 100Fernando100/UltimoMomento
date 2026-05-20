@@ -20,7 +20,7 @@
     },
     {
       "parameters": {
-        "url": "https://www.infobae.com/feeds/rss/"
+        "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=argentina"
       },
       "id": "rss-ar",
       "name": "RSS — Infobae Argentina",
@@ -52,7 +52,7 @@
     },
     {
       "parameters": {
-        "url": "https://www.infobae.com/america/feeds/rss/"
+        "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=espana"
       },
       "id": "rss-es",
       "name": "RSS — Infobae España",
@@ -84,7 +84,7 @@
     },
     {
       "parameters": {
-        "url": "https://www.infobae.com/america/mexico/feeds/rss/"
+        "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=mexico"
       },
       "id": "rss-mx",
       "name": "RSS — Infobae México",

@@ -12,7 +12,7 @@
       "position": [0, 400]
     },
     {
-      "parameters": { "url": "https://www.infobae.com/feeds/rss/" },
+      "parameters": { "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=argentina" },
       "id": "rss-ar",
       "name": "RSS — AR",
       "type": "n8n-nodes-base.rssFeedRead",
@@ -31,7 +31,7 @@
       "position": [420, 100]
     },
     {
-      "parameters": { "url": "https://www.infobae.com/america/mexico/feeds/rss/" },
+      "parameters": { "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=mexico" },
       "id": "rss-mx",
       "name": "RSS — MX",
       "type": "n8n-nodes-base.rssFeedRead",
@@ -50,7 +50,7 @@
       "position": [420, 250]
     },
     {
-      "parameters": { "url": "https://www.infobae.com/america/feeds/rss/" },
+      "parameters": { "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=espana" },
       "id": "rss-es",
       "name": "RSS — ES",
       "type": "n8n-nodes-base.rssFeedRead",
@@ -69,7 +69,7 @@
       "position": [420, 400]
     },
     {
-      "parameters": { "url": "https://www.infobae.com/america/colombia/feeds/rss/" },
+      "parameters": { "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=colombia" },
       "id": "rss-co",
       "name": "RSS — CO",
       "type": "n8n-nodes-base.rssFeedRead",
@@ -88,7 +88,7 @@
       "position": [420, 550]
     },
     {
-      "parameters": { "url": "https://www.infobae.com/america/chile/feeds/rss/" },
+      "parameters": { "url": "https://www.infobae.com/arc/outboundfeeds/rss/?section=chile" },
       "id": "rss-cl",
       "name": "RSS — CL",
       "type": "n8n-nodes-base.rssFeedRead",
